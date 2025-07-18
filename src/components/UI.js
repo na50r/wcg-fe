@@ -19,6 +19,12 @@ export function h1(text) {
     return h1;
 }
 
+export function h2(text) {
+    const h2 = document.createElement('h2');
+    h2.innerText = text;
+    return h2;
+}
+
 export function column(text) {
     const col = document.createElement('td');
     col.classList.add('col');

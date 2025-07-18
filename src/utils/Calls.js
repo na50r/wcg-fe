@@ -1,6 +1,6 @@
 import { router } from "../main.js";
 
-const API = "http://localhost:3000"
+const API = "http://localhost:3030"
 
 export async function register(e) {
     e.preventDefault()
@@ -31,11 +31,11 @@ export async function login(e) {
     localStorage.setItem("username", un)
     const form = e.target
     const body = {
-        username: form.username.value,
+        username: un,
         password: form.password.value,
     }
     let res = await fetch(`${API}/login`, {
-        method: "PUT",
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
@@ -51,4 +51,84 @@ export async function login(e) {
         const msg = await res.json()
         alert(`${msg.error}`)
     }
+}
+
+export async function logout() {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${API}/logout`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    alert("Successfully logged out")
+    localStorage.removeItem("token")
+    localStorage.removeItem("username")
+    localStorage.removeItem("account")
+    router.navigateTo("/")
+    location.reload()
+}
+
+export async function account(username) {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${API}/account/${username}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
+}
+
+export async function getImages(username) {
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${API}/account/${username}/images`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
+}
+
+
+export async function changeImage(imageName) {
+    const token = localStorage.getItem("token")
+    const username = localStorage.getItem("username")
+    const res = await fetch(`${API}/account/${username}/image`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify({imageName: imageName})
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    localStorage.removeItem("account")
+    location.reload()
+
 }

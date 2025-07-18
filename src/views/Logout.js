@@ -1,13 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
-
-function tmpLogout() {
-    localStorage.removeItem("token")
-    localStorage.removeItem("username")
-    router.navigateTo("/")
-    location.reload()
-}
+import {logout} from "../utils/Calls.js";
 
 function renderLogout() {
   const container = UI.Container();
@@ -15,9 +9,9 @@ function renderLogout() {
   const h2 = document.createElement("h2");
   h2.innerText = "Are you sure you want to logout?";
 
-  const logout = UI.actionButton("Yes", () => {tmpLogout();});
+  const yes = UI.actionButton("Yes", logout);
   const notYet = UI.actionButton("No", ()=>{router.navigateTo(`/account/${localStorage.getItem("username")}`);});
-  const btnBar = UI.buttonBar([logout, notYet]);
+  const btnBar = UI.buttonBar([yes, notYet]);
   container.append(h1, h2, btnBar);
   return container;
 }
