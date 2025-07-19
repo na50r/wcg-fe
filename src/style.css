@@ -53,15 +53,16 @@ nav {
 }
 
 .nav-trigger {
-    position: fixed;
-      top: 0;
-      left: 0;
-      width: 5em;
-      height: 100vh;
-      z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5em;
+  height: 100vh;
+  z-index: 10;
 }
 
-.nav-trigger:hover + nav, nav:hover {
+.nav-trigger:hover+nav,
+nav:hover {
   opacity: 1;
   pointer-events: auto;
 }
@@ -150,18 +151,27 @@ form input {
 }
 
 
-img {
+#profile-pic {
   border-radius: 50%;
   border: 1px solid #0e0e0e;
-}
-
-#profile-pic {
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+#lobby-pic {
+  width: 50px;
+  height: 50px;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  border: none;
+}
+
 
 #profile-pic:hover {
   border: 1px solid #ffffff;
@@ -208,4 +218,39 @@ img {
 
 .image-selector tr.selected {
   background-color: #3f3f3f;
+}
+
+.lobbies .lobby.selected {
+  background-color: #3f3f3f;
+}
+
+.lobbies .lobby:hover {
+  background-color: #5f5f5f;
+}
+
+.lobbies .lobby {
+  border: 1px solid #0e0e0e;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1em;
+  gap: 1em;
+}
+
+.lobbies .lobby p {
+  margin: 1rem;
+}
+
+.lobbies {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.lobbies .scroll-wrapper {
+  overflow-y: auto;
+  max-height: 40vh;
 }

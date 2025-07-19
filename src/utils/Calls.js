@@ -71,6 +71,7 @@ export async function logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("username")
     localStorage.removeItem("account")
+    localStorage.removeItem("lobbies")
     router.navigateTo("/")
     location.reload()
 }
@@ -130,5 +131,51 @@ export async function changeImage(imageName) {
     }
     localStorage.removeItem("account")
     location.reload()
+}
 
+export async function getLobbies() {
+    const res = await fetch(`${API}/lobbies`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
+}
+
+export function lobbyEvents() {
+    const evntSource = new EventSource(`${API}/events/lobbies`);
+    return evntSource;
+}
+
+export async function createLobby(e) {
+    e.preventDefault()
+    const form = e.target
+    const body = {
+        name: form.lobbyName.value,
+    }
+    const username = localStorage.getItem("username")
+    const token = localStorage.getItem("token")
+    let res = await fetch(`${API}/account/${username}/lobby`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify(body),
+    })
+    if (res.ok) {
+        alert("Successfully created lobby")
+        router.navigateTo("/lobbies")
+        location.reload()
+    } else {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+    }
 }

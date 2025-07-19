@@ -3,7 +3,7 @@ function loggedIn() {
 }
 function loggedOutView() {
     const newNav = document.createElement("nav")
-    const routes = ["/lobby", "/login", "/register"]
+    const routes = ["/lobbies", "/login", "/register"]
     for (const route of routes) {
         const a = document.createElement("a")
         a.href = route
@@ -18,7 +18,7 @@ function loggedOutView() {
 
 function loggedInView() {
     const newNav = document.createElement("nav")
-    const routes = ["/lobby", `/account/${localStorage.getItem("username")}`, "/logout"]
+    const routes = ["/lobbies", `/account/${localStorage.getItem("username")}`, "/logout"]
     for (const route of routes) {
         const a = document.createElement("a")
         a.href = route

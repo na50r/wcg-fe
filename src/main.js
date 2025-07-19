@@ -1,20 +1,26 @@
 import Login from './views/Login.js'
 import Router from './routing/Router.js'
-import Lobby from './views/Lobby.js'
+import Lobbies from './views/Lobbies.js'
 import Register from './views/Register.js'
 import Account from './views/Account.js'
 import Logout from './views/Logout.js'
+import CreateLobby from './views/CreateLobby.js'
+
+const API = "http://localhost:3030"
+export const eventSource = new EventSource(`${API}/events/lobbies`);
 
 import { Navbar } from './components/Navbar.js';
 import './style.css'
 
+
 const routes = [
-  { path: "/", view: Lobby },
+  { path: "/", view: Lobbies },
   { path: "/login", view: Login },
   { path: "/register", view: Register },
-  { path: "/lobby", view: Lobby },
+  { path: "/lobbies", view: Lobbies },
   { path: "/logout", view: Logout },
   { path: "/account/:username", view: Account },
+  { path: "/lobby", view: CreateLobby },
 ]
 
 export const router = new Router(routes)
@@ -32,9 +38,3 @@ function navBehaviour() {
 
 document.addEventListener("DOMContentLoaded", Navbar);
 document.addEventListener("DOMContentLoaded", navBehaviour);
-
-
-
-
-
-

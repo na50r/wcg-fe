@@ -5,7 +5,6 @@ import {account} from "../utils/Calls.js";
 import { cacheAccount, loadAccount } from "../utils/Account.js";
 import { ImageSelector } from "../components/ImageSelector.js";
 
-
 function renderTime(stamp) {
   const date = new Date(stamp);
   const localDate = date.toLocaleDateString();

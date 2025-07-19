@@ -52,10 +52,19 @@ export function buttonBar(btns) {
     return bar;
 }
 
-export function input(name, placeholder, type="text") {
+export function input(name, placeholder, type="text", value=null) {
     const input = document.createElement('input');
     input.name = name;
     input.placeholder = placeholder;
     input.type = type;
+    if (value) {
+        input.value = value;
+    }
     return input;
+}
+
+export function p(text) {
+    const p = document.createElement('p');
+    p.innerText = text;
+    return p;
 }
