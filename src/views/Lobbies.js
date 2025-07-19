@@ -27,11 +27,9 @@ function loadLobbies() {
 function renderLobby(name, image, playerCount) {
   const lobby = document.createElement('div');
   lobby.classList.add('lobby');
-  const p = document.createElement('p');
-  p.innerText = name;
+  const p = UI.p(name);
   const img = lobbyPicture(image);
-  const cnt = document.createElement('p');
-  cnt.innerText = `${playerCount}`;
+  const cnt = UI.p(playerCount);
   lobby.append(img, p, cnt);
   return lobby;
 }
@@ -40,7 +38,9 @@ function renderLobbies(data) {
   var selectedLobby = null;
   const container = UI.Container();
   const h1 = UI.h1("Lobbies");
+  const p = UI.p("Select a lobby or create a new one");
   container.append(h1);
+  container.append(p);
   const lobbyInstances = data.map(lobby => renderLobby(lobby.lobbyID, lobby.owner.image, lobby.playerCount));
   const lobbies = document.createElement('div');
   lobbies.classList.add('lobbies');

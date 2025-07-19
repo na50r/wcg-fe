@@ -6,13 +6,12 @@ import {logout} from "../utils/Calls.js";
 function renderLogout() {
   const container = UI.Container();
   const h1 = UI.h1("Logout");
-  const h2 = document.createElement("h2");
-  h2.innerText = "Are you sure you want to logout?";
+  const p = UI.p("Are you sure you want to logout?");
 
   const yes = UI.actionButton("Yes", logout);
   const notYet = UI.actionButton("No", ()=>{router.navigateTo(`/account/${localStorage.getItem("username")}`);});
   const btnBar = UI.buttonBar([yes, notYet]);
-  container.append(h1, h2, btnBar);
+  container.append(h1, p, btnBar);
   return container;
 }
 
