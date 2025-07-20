@@ -235,3 +235,27 @@ export async function joinLobby(lobbyCode, playerName) {
     router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
     location.reload()
 }
+
+export async function leaveLobby() {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/leave/${playerName}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    localStorage.removeItem("lobbyCode")
+    localStorage.removeItem("playerName")
+    localStorage.removeItem("playerToken")
+    localStorage.removeItem("lobby")
+    router.navigateTo("/lobbies")
+    location.reload()
+}

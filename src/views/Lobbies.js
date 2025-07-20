@@ -8,9 +8,9 @@ import { joinLobby } from "../utils/Calls.js";
 import { PlayerLogin } from "../components/PlayerLogin.js";
 
 function handleLobbyEvents(event) {
-  if (location.hash !== "#/lobbies") return;
   let data = JSON.parse(event.data)
-  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED" || data === "LOBBY_CREATED") {
+  if (location.pathname !== "/lobbies" && location.pathname !== '/' && !/^\/location\/.{6}$/.test(location.pathname)) return;
+  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED" || data === "LOBBY_CREATED" || data === "PLAYER_LEFT") {
     localStorage.removeItem("lobbies")
     location.reload()
   }
