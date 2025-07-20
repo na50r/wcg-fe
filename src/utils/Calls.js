@@ -125,7 +125,7 @@ export async function changeImage(imageName) {
             "Content-Type": "application/json",
             "Authorization": `${token}`
         },
-        body: JSON.stringify({imageName: imageName})
+        body: JSON.stringify({ imageName: imageName })
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -203,4 +203,35 @@ export async function getLobby(lobbyCode, playerName, playerToken) {
     }
     const data = await res.json()
     return data
+}
+
+export async function joinLobby(lobbyCode, playerName) {
+    var token = localStorage.getItem("token")
+    if (token === null) {
+        token = ""
+    }
+    const body = {
+        lobbyCode: lobbyCode,
+        playerName: playerName,
+    }
+    const res = await fetch(`${API}/lobbies/join`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        },
+        body: JSON.stringify(body),
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    console.log(data)
+    localStorage.setItem("lobbyCode", lobbyCode)
+    localStorage.setItem("playerName", playerName)
+    localStorage.setItem("playerToken", data.token)
+    router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
+    location.reload()
 }

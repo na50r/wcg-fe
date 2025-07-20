@@ -38,7 +38,6 @@ export async function ImageSelector() {
   scrollWrapper.append(table);
   container.append(scrollWrapper);
   const saveBtn = UI.actionButton("Save", () => {
-    console.log(`Saved image ${selectedImage.innerText}`);
     changeImage(selectedImage.innerText)
     container.classList.remove("open");
   });

@@ -4,23 +4,16 @@ import { getLobbies } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
 import { eventSource, router } from "../main.js";
 import { loggedIn } from "../utils/Utility.js";
+import { joinLobby } from "../utils/Calls.js";
+import { PlayerLogin } from "../components/PlayerLogin.js";
 
 function handleLobbyEvents(event) {
+  if (location.hash !== "#/lobbies") return;
   let data = JSON.parse(event.data)
-  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED") {
+  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED" || data === "LOBBY_CREATED") {
     localStorage.removeItem("lobbies")
     location.reload()
   }
-  // if (data === "LOBBY_CREATED") {
-  //   const lobbyCode = localStorage.getItem("lobbyCode")
-  //   if (lobbyCode) {
-  //     router.navigateTo(`/lobby/${lobbyCode}`)
-  //   }
-  //   else {
-  //     localStorage.removeItem("lobbies")
-  //     location.reload()
-  //   }
-  // }
 }
 
 function cacheLobbies(data) {
@@ -41,6 +34,19 @@ function renderLobby(name, image, playerCount) {
   const cnt = UI.p(playerCount);
   lobby.append(img, p, cnt);
   return lobby;
+}
+
+function joinSelectedLobby(selectedLobby) {
+  const lobbyCode = selectedLobby.querySelector('p').innerText;
+  console.log(lobbyCode)
+  const playerName = localStorage.getItem("username");
+  if (playerName === null) {
+    const playerLogin = document.querySelector(".player-login");
+    playerLogin.classList.add("open");
+    playerLogin.dataset.lobbyCode = lobbyCode;
+    return;
+  }
+  joinLobby(lobbyCode, playerName);
 }
 
 function renderLobbies(data) {
@@ -72,7 +78,7 @@ function renderLobbies(data) {
       alert("Please select a lobby");
       return;
     }
-    alert(`Joined ${selectedLobby.querySelector('p').innerText}`);
+    joinSelectedLobby(selectedLobby);
   });
 
   const createBtn = UI.actionButton("Create", () => {
@@ -102,6 +108,9 @@ export default class extends AbstractView {
       cacheLobbies(data)
     }
     const data = loadLobbies()
-    return renderLobbies(data);
+    const container = document.createElement("div");
+    const playerLogin = PlayerLogin();
+    container.append(playerLogin, renderLobbies(data));
+    return container;
   }
 }
