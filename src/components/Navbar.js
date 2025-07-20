@@ -1,6 +1,12 @@
 function loggedIn() {
     return localStorage.getItem("token") !== null
 }
+
+function inLobby() {
+    return localStorage.getItem("playerToken") !== null
+}
+
+
 function loggedOutView() {
     const newNav = document.createElement("nav")
     const routes = ["/lobbies", "/login", "/register"]
@@ -31,9 +37,43 @@ function loggedInView() {
     nav.replaceWith(newNav)
 }
 
+function loggedInAndInLobbyView() {
+    const newNav = document.createElement("nav")
+    const routes = [`/lobby/${localStorage.getItem("lobbyCode")}`, `/account/${localStorage.getItem("username")}`, "/logout"]
+    for (const route of routes) {
+        const a = document.createElement("a")
+        a.href = route
+        a.innerText = route.replace("/", "").toUpperCase()
+        a.dataset.link = true
+        a.classList.add("nav__link")
+        newNav.appendChild(a)
+    }
+    const nav = document.querySelector("nav")
+    nav.replaceWith(newNav)
+}
+
+function lobbyView() {
+    const newNav = document.createElement("nav")
+    const routes = [`/lobby/${localStorage.getItem("lobbyCode")}`]
+    for (const route of routes) {
+        const a = document.createElement("a")
+        a.href = route
+        a.innerText = route.replace("/", "").toUpperCase()
+        a.dataset.link = true
+        a.classList.add("nav__link")
+        newNav.appendChild(a)
+    }
+    const nav = document.querySelector("nav")
+    nav.replaceWith(newNav)
+}
+
 export function Navbar() {
-    if (loggedIn()) {
+    if (loggedIn() && inLobby()) {
+        loggedInAndInLobbyView()
+    } else if (loggedIn() && !inLobby()) {
         loggedInView()
+    } else if (!loggedIn() && inLobby()) {
+        lobbyView()
     } else {
         loggedOutView()
     }

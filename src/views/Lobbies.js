@@ -7,11 +7,20 @@ import { loggedIn } from "../utils/Utility.js";
 
 function handleLobbyEvents(event) {
   let data = JSON.parse(event.data)
-  if (data === "LOBBY_CREATED" || data === "LOBBY_DELETED") {
-    console.log("Lobby created")
+  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED") {
     localStorage.removeItem("lobbies")
     location.reload()
   }
+  // if (data === "LOBBY_CREATED") {
+  //   const lobbyCode = localStorage.getItem("lobbyCode")
+  //   if (lobbyCode) {
+  //     router.navigateTo(`/lobby/${lobbyCode}`)
+  //   }
+  //   else {
+  //     localStorage.removeItem("lobbies")
+  //     location.reload()
+  //   }
+  // }
 }
 
 function cacheLobbies(data) {
@@ -41,7 +50,7 @@ function renderLobbies(data) {
   const p = UI.p("Select a lobby or create a new one");
   container.append(h1);
   container.append(p);
-  const lobbyInstances = data.map(lobby => renderLobby(lobby.lobbyID, lobby.owner.image, lobby.playerCount));
+  const lobbyInstances = data.map(lobby => renderLobby(lobby.lobbyCode, lobby.image, lobby.playerCount));
   const lobbies = document.createElement('div');
   lobbies.classList.add('lobbies');
   const scrollWrapper = document.createElement('div');
@@ -89,6 +98,7 @@ export default class extends AbstractView {
     eventSource.addEventListener('msg', handleLobbyEvents);
     if (loadLobbies() === null) {
       const data = await getLobbies()
+      console.log(data)
       cacheLobbies(data)
     }
     const data = loadLobbies()

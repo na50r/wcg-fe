@@ -72,6 +72,9 @@ export async function logout() {
     localStorage.removeItem("username")
     localStorage.removeItem("account")
     localStorage.removeItem("lobbies")
+    localStorage.removeItem("lobbyCode")
+    localStorage.removeItem("playerName")
+    localStorage.removeItem("playerToken")
     router.navigateTo("/")
     location.reload()
 }
@@ -172,10 +175,32 @@ export async function createLobby(e) {
     })
     if (res.ok) {
         alert("Successfully created lobby")
-        router.navigateTo("/lobbies")
+        const data = await res.json()
+        console.log(data)
+        localStorage.setItem("lobbyCode", data.lobby.lobbyCode)
+        localStorage.setItem("playerName", username)
+        localStorage.setItem("playerToken", data.token)
+        router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
         location.reload()
     } else {
         const msg = await res.json()
         alert(`${msg.error}`)
     }
+}
+
+export async function getLobby(lobbyCode, playerName, playerToken) {
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/view/${playerName}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${playerToken}`
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
 }

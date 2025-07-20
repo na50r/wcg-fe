@@ -5,6 +5,7 @@ import Register from './views/Register.js'
 import Account from './views/Account.js'
 import Logout from './views/Logout.js'
 import CreateLobby from './views/CreateLobby.js'
+import Lobby from './views/Lobby.js'
 
 const API = "http://localhost:3030"
 export const eventSource = new EventSource(`${API}/events/lobbies`);
@@ -21,6 +22,7 @@ const routes = [
   { path: "/logout", view: Logout },
   { path: "/account/:username", view: Account },
   { path: "/lobby", view: CreateLobby },
+  { path: "/lobby/:lobbyCode", view: Lobby },
 ]
 
 export const router = new Router(routes)
