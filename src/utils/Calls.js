@@ -46,7 +46,7 @@ export async function login(e) {
         localStorage.setItem("token", data.token)
         alert("Successfully logged in")
         router.navigateTo(`/account/${un}`)
-        location.reload()
+        router.navigate()
     } else {
         const msg = await res.json()
         alert(`${msg.error}`)
@@ -76,7 +76,7 @@ export async function logout() {
     localStorage.removeItem("playerName")
     localStorage.removeItem("playerToken")
     router.navigateTo("/")
-    location.reload()
+    router.navigate()
 }
 
 export async function account(username) {
@@ -133,7 +133,7 @@ export async function changeImage(imageName) {
         return;
     }
     localStorage.removeItem("account")
-    location.reload()
+    router.navigate()
 }
 
 export async function getLobbies() {
@@ -180,8 +180,9 @@ export async function createLobby(e) {
         localStorage.setItem("lobbyCode", data.lobby.lobbyCode)
         localStorage.setItem("playerName", username)
         localStorage.setItem("playerToken", data.token)
+        localStorage.setItem("owner", username)
         router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
-        location.reload()
+        router.navigate()
     } else {
         const msg = await res.json()
         alert(`${msg.error}`)
@@ -232,8 +233,9 @@ export async function joinLobby(lobbyCode, playerName) {
     localStorage.setItem("lobbyCode", lobbyCode)
     localStorage.setItem("playerName", playerName)
     localStorage.setItem("playerToken", data.token)
+    localStorage.setItem("owner", data.owner)
     router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
-    location.reload()
+    router.navigate()
 }
 
 export async function leaveLobby() {
@@ -257,5 +259,26 @@ export async function leaveLobby() {
     localStorage.removeItem("playerToken")
     localStorage.removeItem("lobby")
     router.navigateTo("/lobbies")
-    location.reload()
+    router.navigate()
+}
+
+export async function changeGameMode(gameMode) {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/edit/${playerName}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify({ gameMode: gameMode })
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    localStorage.removeItem("lobby")
+    router.navigate()
 }

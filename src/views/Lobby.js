@@ -3,6 +3,8 @@ import * as UI from "../components/UI.js";
 import { getLobby } from "../utils/Calls.js";
 import { leaveLobby } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
+import { setLobbyEventListener } from "../utils/EventHandling.js";
+import { changeGameMode } from "../utils/Calls.js";
 
 function cacheLobby(data) {
   localStorage.setItem("lobby", JSON.stringify(data))
@@ -39,16 +41,20 @@ function renderPlayers(data) {
   return container;
 }
 
-function renderMenu(data) {
-  const container = UI.Container();
-  const h3 = document.createElement('h3');
-  h3.innerText = "Game Modes";
-  container.classList.add('menu');
-  var selectedMode = null;
-
-  const gameModes = ["Vanilla", "Wombo Combo", "Lucky Rush"];
-
+function renderSelectedMode(gameModes) {
   const table = document.createElement('table');
+  table.id = "gameModes"
+  for (const mode of gameModes) {
+    const row = UI.row([UI.column(mode)]);
+    table.append(row);
+  }
+  return table;
+}
+
+function renderSelectedModeForOwner(gameModes) {
+  const table = document.createElement('table');
+  table.id = "gameModes"
+  var selectedMode = null;
   for (const mode of gameModes) {
     const row = UI.row([UI.column(mode)]);
     row.addEventListener('click', () => {
@@ -57,8 +63,25 @@ function renderMenu(data) {
       }
       row.classList.add('selected');
       selectedMode = row;
+      changeGameMode(mode)
     });
     table.append(row);
+  }
+  return table;
+}
+
+function renderMenu(data) {
+  const container = UI.Container();
+  const h3 = document.createElement('h3');
+  h3.innerText = "Game Modes";
+  container.classList.add('menu');
+  var table = null;
+  const gameModes = ["Vanilla", "Wombo Combo", "Lucky Rush"];
+  if (data.owner === localStorage.getItem("playerName")) {
+    table = renderSelectedModeForOwner(gameModes);
+  }
+  else {
+    table = renderSelectedMode(gameModes);
   }
   container.append(h3, table);
   return container;
@@ -90,6 +113,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    setLobbyEventListener();
     const lobbyCode = this.lobbyCode
     const playerName = localStorage.getItem("playerName")
     const playerToken = localStorage.getItem("playerToken")

@@ -2,19 +2,11 @@ import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { getLobbies } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
-import { eventSource, router } from "../main.js";
+import { router } from "../main.js";
 import { loggedIn } from "../utils/Utility.js";
 import { joinLobby } from "../utils/Calls.js";
 import { PlayerLogin } from "../components/PlayerLogin.js";
-
-function handleLobbyEvents(event) {
-  let data = JSON.parse(event.data)
-  if (location.pathname !== "/lobbies" && location.pathname !== '/' && !/^\/location\/.{6}$/.test(location.pathname)) return;
-  if (data === "LOBBY_DELETED" || data === "LOBBY_JOINED" || data === "LOBBY_CREATED" || data === "PLAYER_LEFT") {
-    localStorage.removeItem("lobbies")
-    location.reload()
-  }
-}
+import { setLobbyEventListener } from "../utils/EventHandling.js";
 
 function cacheLobbies(data) {
   localStorage.setItem("lobbies", JSON.stringify(data))
@@ -100,8 +92,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    eventSource.removeEventListener('msg', handleLobbyEvents);
-    eventSource.addEventListener('msg', handleLobbyEvents);
+    setLobbyEventListener();
     if (loadLobbies() === null) {
       const data = await getLobbies()
       console.log(data)

@@ -9,6 +9,16 @@ export function toggleButton() {
     }
 }
 
+export function toggleButtonForPlayerLogin() {
+    const input = document.getElementById("playerName")
+    const btn = document.getElementById("enter-btn")
+    if (input.value) {
+        btn.disabled = false
+    } else {
+        btn.disabled = true
+    }
+}
+
 export function loggedIn() {
     return localStorage.getItem("token") !== null
 }

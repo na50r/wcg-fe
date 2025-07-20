@@ -1,5 +1,6 @@
 import * as UI from "./UI.js";
 import { joinLobby } from "../utils/Calls.js";
+import { toggleButtonForPlayerLogin } from "../utils/Utility.js";
 
 function joinLobbyAnon(e) {
     e.preventDefault()
@@ -16,7 +17,11 @@ export function PlayerLogin() {
     const h2 = UI.h2("Provide a player name");
     const form = UI.form(joinLobbyAnon);
     const input = UI.input("playerName", "Player Name", "text");
+    input.id = "playerName"
+    input.addEventListener("input", toggleButtonForPlayerLogin)
     const joinBtn = UI.actionButton("Confirm", ()=>{}, "submit");
+    joinBtn.id = "enter-btn"
+    joinBtn.disabled = true
     const cancelBtn = UI.actionButton("Cancel", () => {container.classList.remove("open"); container.dataset.lobbyCode = null;});
     const btnBar = UI.buttonBar([joinBtn, cancelBtn]);
     form.append(input, btnBar);
