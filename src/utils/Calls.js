@@ -1,6 +1,7 @@
 import { router } from "../main.js";
+import { Navbar } from "../components/Navbar.js";
 
-const API = "http://localhost:3030"
+const API = import.meta.env.VITE_API;
 
 export async function register(e) {
     e.preventDefault()
@@ -47,6 +48,7 @@ export async function login(e) {
         alert("Successfully logged in")
         router.navigateTo(`/account/${un}`)
         router.navigate()
+        Navbar()
     } else {
         const msg = await res.json()
         alert(`${msg.error}`)
@@ -77,6 +79,7 @@ export async function logout() {
     localStorage.removeItem("playerToken")
     router.navigateTo("/")
     router.navigate()
+    Navbar()
 }
 
 export async function account(username) {
@@ -183,6 +186,7 @@ export async function createLobby(e) {
         localStorage.setItem("owner", username)
         router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
         router.navigate()
+        Navbar()
     } else {
         const msg = await res.json()
         alert(`${msg.error}`)
@@ -236,6 +240,7 @@ export async function joinLobby(lobbyCode, playerName) {
     localStorage.setItem("owner", data.owner)
     router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
     router.navigate()
+    Navbar()
 }
 
 export async function leaveLobby() {
@@ -279,6 +284,4 @@ export async function changeGameMode(gameMode) {
         alert(`${msg.error}`)
         return;
     }
-    localStorage.removeItem("lobby")
-    router.navigate()
 }

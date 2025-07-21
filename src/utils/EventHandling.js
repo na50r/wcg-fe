@@ -1,4 +1,5 @@
 import { router, eventSource } from "../main.js";
+import { isOwner } from "./Utility.js";
 
 export function deleteLobbyEvent() {
   localStorage.removeItem("lobbies")
@@ -20,7 +21,6 @@ export function updateGameMode() {
 
 export function handleLobbyEvents(event) {
   let data = JSON.parse(event.data)
-  console.log(data)
   if (data === "PLAYER_JOINED" || data === "LOBBY_CREATED" || data === "PLAYER_LEFT") {
     updateLobbyEvent();
     router.navigate();
@@ -30,17 +30,14 @@ export function handleLobbyEvents(event) {
     router.navigateTo("/lobbies");
     router.navigate();
   }
-  if (data.gameMode !== undefined) {
-    const playerName = localStorage.getItem("playerName");
-    const ownerName = localStorage.getItem("owner");
-    if (playerName === ownerName) return;
-
+  if (data.gameMode !== undefined && !isOwner()) {
+    console.log("Game mode changed");
     const table = document.getElementById("gameModes");
+    console.log("Table:", table);
     if (!table) return;
-
     const rows = table.querySelectorAll("tr");
     for (const row of rows) {
-      if (row.innerText.trim() === data.gameMode) {
+      if (row.getAttribute("data-mode") === data.gameMode) {
         row.classList.add("selected");
       } else {
         row.classList.remove("selected");

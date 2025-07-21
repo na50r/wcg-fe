@@ -32,7 +32,6 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    console.log(import.meta.env.VITE_SOME_KEY)
     return renderLogin();
   }
 }

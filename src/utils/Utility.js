@@ -22,3 +22,8 @@ export function toggleButtonForPlayerLogin() {
 export function loggedIn() {
     return localStorage.getItem("token") !== null
 }
+
+
+export function isOwner() {
+    return localStorage.getItem("playerName") === localStorage.getItem("owner")
+}

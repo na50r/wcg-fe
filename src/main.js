@@ -7,7 +7,7 @@ import Logout from './views/Logout.js'
 import CreateLobby from './views/CreateLobby.js'
 import Lobby from './views/Lobby.js'
 
-const API = "http://localhost:3030"
+const API = import.meta.env.VITE_API;
 export const eventSource = new EventSource(`${API}/events/lobbies`);
 
 import { Navbar } from './components/Navbar.js';
@@ -39,4 +39,5 @@ function navBehaviour() {
 }
 
 document.addEventListener("DOMContentLoaded", Navbar);
+document.addEventListener("load", Navbar);
 document.addEventListener("DOMContentLoaded", navBehaviour);
