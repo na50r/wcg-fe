@@ -4,6 +4,7 @@ import { router } from "../main.js";
 import {account} from "../utils/Calls.js";
 import { cacheAccount, loadAccount } from "../utils/Account.js";
 import { ImageSelector } from "../components/ImageSelector.js";
+import { ChangeUsername, ChangePassword } from "../components/ChangeAccount.js";
 
 function renderTime(stamp) {
   const date = new Date(stamp);
@@ -39,6 +40,11 @@ function renderAccount(data = {}) {
 
   for (const item of info) {
     const row = UI.row([UI.column(item.name), UI.column(item.value)]);
+    if (item.name === "Username") {
+      row.addEventListener("click", () => {
+        document.querySelector(".change-username").classList.add("open");
+      });
+    }
     table.append(row);
   }
 
@@ -68,9 +74,14 @@ export default class extends AbstractView {
 
     const data = loadAccount()
     const imgSelector = await ImageSelector();
-
+    const changeUsername = ChangeUsername();
+    const changePassword = await ChangePassword();
     const container = document.createElement("div");
-    container.append(imgSelector, renderAccount(data));
+    const changePwButton = UI.actionButton("Change Password", () => {
+      document.querySelector(".change-password").classList.add("open");
+    });
+    const acc = renderAccount(data);
+    container.append(imgSelector, changePassword, changeUsername, acc, changePwButton);
     return container;
   }
 }

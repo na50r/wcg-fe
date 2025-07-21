@@ -123,19 +123,76 @@ export async function getImages(username) {
 export async function changeImage(imageName) {
     const token = localStorage.getItem("token")
     const username = localStorage.getItem("username")
-    const res = await fetch(`${API}/account/${username}/image`, {
-        method: "POST",
+    const body = {
+        type: "IMAGE",
+        imageName: imageName,
+    }
+    console.log(body)
+    const res = await fetch(`${API}/account/${username}`, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `${token}`
         },
-        body: JSON.stringify({ imageName: imageName })
+        body: JSON.stringify(body)
     })
     if (!res.ok) {
         const msg = await res.json()
         alert(`${msg.error}`)
         return;
     }
+    localStorage.removeItem("account")
+    router.navigate()
+}
+
+export async function editUsername(newUsername) {
+    const token = localStorage.getItem("token")
+    const username = localStorage.getItem("username")
+    const body = {
+        type: "USERNAME",
+        username: newUsername,
+    }
+    const res = await fetch(`${API}/account/${username}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    localStorage.removeItem("account")
+    localStorage.setItem("username", newUsername)
+    router.navigateTo(`/account/${newUsername}`)
+}
+
+export async function editPassword(oldPassword, newPassword) {
+    const token = localStorage.getItem("token")
+    const username = localStorage.getItem("username")
+    const body = {
+        type: "PASSWORD",
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+    }
+    const res = await fetch(`${API}/account/${username}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`
+        },
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const resp = await res.json()
+    alert(resp.message)
     localStorage.removeItem("account")
     router.navigate()
 }

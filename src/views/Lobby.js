@@ -83,7 +83,7 @@ function renderMenu(data) {
   const h3 = document.createElement('h3');
   h3.innerText = "Game Modes";
   container.classList.add('menu');
-  const gameModes = ["Vanilla", "Wombo Combo", "Lucky Rush"];
+  const gameModes = data.gameModes;
   var table = null;
   if (isOwner()) {
     table = renderGameModesForOwner(gameModes);
