@@ -9,6 +9,10 @@ export default {
                 target: 'http://localhost:3030',
                 changeOrigin: true,
             },
+            '/events/lobby': {
+                target: 'http://localhost:3030',
+                changeOrigin: true,
+            }
         },
     },
 };

@@ -6,9 +6,25 @@ import Account from './views/Account.js'
 import Logout from './views/Logout.js'
 import CreateLobby from './views/CreateLobby.js'
 import Lobby from './views/Lobby.js'
+import { EventSource } from 'extended-eventsource';
 
 const API = import.meta.env.VITE_API;
-export const eventSource = new EventSource(`${API}/events/lobbies`);
+export var eventSource = new EventSource(`${API}/events/lobbies`);
+export function initOrUpdateEventSource() {
+  if (eventSource !== null) {
+    eventSource.close();
+  }
+  const playerToken = localStorage.getItem("playerToken")
+  if (playerToken !== null) {
+    eventSource = new EventSource(`${API}/events/lobbies`, {
+      headers: {
+        "Authorization": `${playerToken}`
+      }
+    });
+  } else {
+    eventSource = new EventSource(`${API}/events/lobbies`);
+  }
+}
 
 import { Navbar } from './components/Navbar.js';
 import './style.css'
@@ -41,3 +57,4 @@ function navBehaviour() {
 document.addEventListener("DOMContentLoaded", Navbar);
 document.addEventListener("load", Navbar);
 document.addEventListener("DOMContentLoaded", navBehaviour);
+document.addEventListener("DOMContentLoaded", initOrUpdateEventSource);

@@ -1,5 +1,7 @@
-import { router, eventSource } from "../main.js";
+import { router } from "../main.js";
 import { isOwner } from "./Utility.js";
+import {eventSource} from "../main.js";
+
 
 export function deleteLobbyEvent() {
   localStorage.removeItem("lobbies")
@@ -47,6 +49,5 @@ export function handleLobbyEvents(event) {
 }
 
 export function setLobbyEventListener() {
-  eventSource.removeEventListener('msg', handleLobbyEvents);
   eventSource.addEventListener('msg', handleLobbyEvents);
 }

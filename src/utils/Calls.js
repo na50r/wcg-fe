@@ -1,5 +1,6 @@
 import { router } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
+import { initOrUpdateEventSource } from "../main.js";
 
 const API = import.meta.env.VITE_API;
 
@@ -184,6 +185,7 @@ export async function createLobby(e) {
         localStorage.setItem("playerName", username)
         localStorage.setItem("playerToken", data.token)
         localStorage.setItem("owner", username)
+        initOrUpdateEventSource()
         router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
         router.navigate()
         Navbar()
@@ -238,6 +240,7 @@ export async function joinLobby(lobbyCode, playerName) {
     localStorage.setItem("playerName", playerName)
     localStorage.setItem("playerToken", data.token)
     localStorage.setItem("owner", data.owner)
+    initOrUpdateEventSource()
     router.navigateTo(`/lobby/${data.lobby.lobbyCode}`)
     router.navigate()
     Navbar()
@@ -265,6 +268,7 @@ export async function leaveLobby() {
     localStorage.removeItem("lobby")
     router.navigateTo("/lobbies")
     router.navigate()
+    Navbar()
 }
 
 export async function changeGameMode(gameMode) {
