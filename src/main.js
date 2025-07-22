@@ -6,6 +6,9 @@ import Account from './views/Account.js'
 import Logout from './views/Logout.js'
 import CreateLobby from './views/CreateLobby.js'
 import Lobby from './views/Lobby.js'
+import Game from './views/Game.js'
+import GameEnd from './views/GameEnd.js'
+
 import { EventSource } from 'extended-eventsource';
 
 const API = import.meta.env.VITE_API;
@@ -39,6 +42,8 @@ const routes = [
   { path: "/account/:username", view: Account },
   { path: "/lobby", view: CreateLobby },
   { path: "/lobby/:lobbyCode", view: Lobby },
+  { path: "/game", view: Game },
+  { path: "/game/end", view: GameEnd },
 ]
 
 export const router = new Router(routes)

@@ -355,3 +355,109 @@ form input {
   overflow-y: auto;
   max-height: 40vh;
 }
+
+
+#gamebox {
+  background-color: #a2a2a2;
+  border-radius: 10px;
+  border: 1px solid #0e0e0e;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 1em;
+  padding: 1em;
+  min-width: min-content
+}
+
+#gamebox section {
+  background-color: #9f9f9f;
+  border-radius: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 5em;
+}
+
+#gamebox aside {
+  background-color: #6e6e6e;
+  border-radius: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: .5em;
+  padding: 1em;
+}
+
+#gamebox #bar {
+  display: flex;
+  align-items: flex-start;
+  gap: .5em;
+  padding: 1em;
+}
+
+#gamebox #bar .symbol {
+  font-weight: bold;
+  font-size: 2em;
+  margin: 0 0.5em;
+}
+
+#gamebox .element {
+  border: 1px solid rgb(0, 0, 0);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: fit-content;
+  padding: 0.5em;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#gamebox .element span:first-of-type {
+  margin-right: 5px;
+}
+
+#gamebox .element span:last-of-type {
+  white-space: nowrap;
+}
+
+#gamebox .element span:first-of-type img {
+  width: 1.25em;
+  height: 1.25em;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.1em;
+}
+
+#gamebox .element:hover {
+  filter: brightness(0.95);
+}
+
+#gamebox .element.movable {
+  position: absolute;
+}
+
+#gamebox .element.dragged {
+  z-index: 10;
+  pointer-events: none;
+}
+
+#gamebox .element.loading {
+  animation: loading 1s infinite;
+}
+
+@keyframes loading {
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(0.9);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}

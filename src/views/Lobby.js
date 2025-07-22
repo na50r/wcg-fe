@@ -6,6 +6,7 @@ import { lobbyPicture } from "../components/Images.js";
 import { setLobbyEventListener } from "../utils/EventHandling.js";
 import { changeGameMode } from "../utils/Calls.js";
 import { isOwner } from "../utils/Utility.js";
+import { startGame } from "../utils/Calls.js";
 
 function cacheLobby(data) {
   localStorage.setItem("lobby", JSON.stringify(data))
@@ -105,7 +106,10 @@ async function renderLobby(data) {
   containers.append(playerContainer, menuContainer);
   container.append(h1, p, containers);
   const leaveBtn = UI.actionButton("Leave", leaveLobby);
-  const startBtn = UI.actionButton("Start", () => { alert("Not implemented yet"); });
+  const startBtn = UI.actionButton("Start", startGame);
+  if (!isOwner()) {
+    startBtn.disabled = true;
+  }
   const btnBar = UI.buttonBar([startBtn, leaveBtn]);
   container.append(btnBar);
   return container;

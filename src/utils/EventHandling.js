@@ -1,6 +1,7 @@
 import { router } from "../main.js";
 import { isOwner } from "./Utility.js";
-import {eventSource} from "../main.js";
+import { eventSource } from "../main.js";
+import { Navbar } from "../components/Navbar.js";
 
 
 export function deleteLobbyEvent() {
@@ -23,6 +24,7 @@ export function updateGameMode() {
 
 export function handleLobbyEvents(event) {
   let data = JSON.parse(event.data)
+  console.log(data)
   if (data === "PLAYER_JOINED" || data === "LOBBY_CREATED" || data === "PLAYER_LEFT") {
     updateLobbyEvent();
     router.navigate();
@@ -45,6 +47,18 @@ export function handleLobbyEvents(event) {
         row.classList.remove("selected");
       }
     }
+  }
+  if (data === "GAME_STARTED") {
+    localStorage.setItem("game", true)
+    router.navigateTo("/game");
+    router.navigate();
+    Navbar()
+  }
+  if (data === "GAME_OVER") {
+    localStorage.removeItem("game")
+    router.navigateTo(`/game/end`);
+    router.navigate();
+    Navbar()
   }
 }
 

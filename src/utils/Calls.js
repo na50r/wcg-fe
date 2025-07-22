@@ -253,7 +253,7 @@ export async function createLobby(e) {
 }
 
 export async function getLobby(lobbyCode, playerName, playerToken) {
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/view/${playerName}`, {
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -307,7 +307,7 @@ export async function leaveLobby() {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/leave/${playerName}`, {
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/leave`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -332,7 +332,7 @@ export async function changeGameMode(gameMode) {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/edit/${playerName}`, {
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/edit`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -345,4 +345,108 @@ export async function changeGameMode(gameMode) {
         alert(`${msg.error}`)
         return;
     }
+}
+
+export async function getCombination(elemA, elemB) {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const body = {
+        a: elemA,
+        b: elemB,
+    }
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/combinations`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        },
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data.result
+}
+
+export async function startGame() {
+    const table = document.getElementById("gameModes");
+    if (!table) return;
+    var gameMode = null;
+    const rows = table.querySelectorAll("tr");
+    for (const row of rows) {
+        if (row.classList.contains("selected")) {
+            gameMode = row.getAttribute("data-mode");
+            break;
+        }
+    }
+    if (gameMode === null) {
+        alert("Please select a game mode");
+        return;
+    }
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const token = localStorage.getItem("playerToken")
+    const body = {
+        gameMode: gameMode,
+    }
+    console.log("Starting game with mode: " + gameMode)
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        },
+        body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+}
+
+export async function getPlayerWords() {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/words`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    console.log(data)
+    return data
+}
+
+export async function gameEnd() {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/end`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    console.log(data)
+    return data
 }
