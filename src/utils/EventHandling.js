@@ -54,9 +54,28 @@ export function handleLobbyEvents(event) {
     router.navigate();
     Navbar()
   }
+  if (data.targetWord !== undefined) {
+    localStorage.setItem("targetWord", data.targetWord)
+  }
+
   if (data === "GAME_OVER") {
     localStorage.removeItem("game")
+    localStorage.removeItem("targetWord")
     router.navigateTo(`/game/end`);
+    router.navigate();
+    Navbar()
+  }
+  if (data === "GAME_DELETED") {
+    router.navigateTo(`/lobby/${localStorage.getItem("lobbyCode")}`);
+    router.navigate();
+    Navbar()
+  }
+  if (data === "LOBBY_DELETED") {
+    localStorage.removeItem("lobbyCode")
+    localStorage.removeItem("playerName")
+    localStorage.removeItem("playerToken")
+    localStorage.removeItem("lobby")
+    router.navigateTo("/lobbies");
     router.navigate();
     Navbar()
   }

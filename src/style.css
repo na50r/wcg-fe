@@ -312,14 +312,31 @@ form input {
 }
 
 .lobby .menu {
-  border : 1px solid #ff0000;
+  border: 1px solid #ff0000;
   width: 12.5em;
 }
-
 .lobby .players {
   border: 1px solid #6f00ff;
   width: 12.5em;
 }
+.game-end .player {
+    border: 1px solid #0e0e0e;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+.game-end .player p {
+  margin: 1rem;
+}
+
+.game-end .scroll-wrapper {
+  overflow-y: auto;
+  max-height: 40vh;
+  border-radius: 10px;
+}
+
 
 .lobby .players .scroll-wrapper {
   overflow-y: auto;

@@ -430,11 +430,11 @@ export async function getPlayerWords() {
     return data
 }
 
-export async function gameEnd() {
+export async function getGameStats() {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
-    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/end`, {
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -449,4 +449,22 @@ export async function gameEnd() {
     const data = await res.json()
     console.log(data)
     return data
+}
+
+export async function deleteGame() {
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const playerName = localStorage.getItem("playerName")
+    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
 }

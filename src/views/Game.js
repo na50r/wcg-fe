@@ -1,6 +1,7 @@
 import AbstractView from "./AbstractView.js";
 import { getCombination } from "../utils/Calls.js";
 import { getPlayerWords } from "../utils/Calls.js";
+import * as UI from "../components/UI.js";
 
 function createGame() {
     const container = document.createElement('div');
@@ -96,7 +97,9 @@ async function renderGame(game) {
     const section = game.querySelector('section');
     const aside = game.querySelector('aside');
     const data = await getPlayerWords()
-    const currList = formaList(data);
+    const targetWord = data.targetWord
+    const p = UI.p(`Target Word: ${targetWord}`);
+    const currList = formaList(data.words);
     const state = {
         section: section,
         aside: aside,
@@ -108,6 +111,7 @@ async function renderGame(game) {
     state.section.append(bar);
     const handler = createHandler(state);
     game.addEventListener("click", handler);
+    game.prepend(p);
     return game;
 }
 
