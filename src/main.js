@@ -12,20 +12,20 @@ import GameEnd from './views/GameEnd.js'
 import { EventSource } from 'extended-eventsource';
 
 const API = import.meta.env.VITE_API;
-export var eventSource = new EventSource(`${API}/events/lobbies`);
+export var eventSource = new EventSource(`${API}/events`);
 export function initOrUpdateEventSource() {
   if (eventSource !== null) {
     eventSource.close();
   }
   const playerToken = localStorage.getItem("playerToken")
   if (playerToken !== null) {
-    eventSource = new EventSource(`${API}/events/lobbies`, {
+    eventSource = new EventSource(`${API}/events`, {
       headers: {
         "Authorization": `${playerToken}`
       }
     });
   } else {
-    eventSource = new EventSource(`${API}/events/lobbies`);
+    eventSource = new EventSource(`${API}/events`);
   }
 }
 

@@ -1,18 +1,10 @@
 export default {
     server: {
         proxy: {
-            '/events/messages': {
+            '/events': {
                 target: 'http://localhost:3030',
                 changeOrigin: true,
             },
-            '/events/lobbies': {
-                target: 'http://localhost:3030',
-                changeOrigin: true,
-            },
-            '/events/lobby': {
-                target: 'http://localhost:3030',
-                changeOrigin: true,
-            }
         },
     },
 };

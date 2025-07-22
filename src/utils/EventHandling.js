@@ -79,6 +79,9 @@ export function handleLobbyEvents(event) {
     router.navigate();
     Navbar()
   }
+  if (data === "ACCOUNT_UPDATE") {
+    localStorage.removeItem("account")
+  }
 }
 
 export function setLobbyEventListener() {
