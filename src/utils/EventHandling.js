@@ -54,8 +54,9 @@ export function handleLobbyEvents(event) {
     router.navigate();
     Navbar()
   }
-  if (data.targetWord !== undefined) {
-    localStorage.setItem("targetWord", data.targetWord)
+
+  if (data.type === "TIME_EVENT") {
+    console.log(data.secondsLeft)
   }
 
   if (data === "GAME_OVER") {

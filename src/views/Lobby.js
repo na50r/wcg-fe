@@ -78,6 +78,36 @@ function renderGameModesForOwner(gameModes) {
   return table;
 }
 
+function renderTimer() {
+  const div = document.createElement('div');
+  div.classList.add('timer');
+  const h3 = document.createElement('h3');
+  h3.innerText = "Timer";
+  const selection = renderSelection(5);
+  div.append(h3, selection);
+  return div;
+}
+
+function renderSelection(duration) {
+  const div = document.createElement('div');
+  div.classList.add('custom-select');
+  const select = document.createElement('select');
+  select.id = "duration-select"
+  const noneOpt = document.createElement('option');
+  noneOpt.value = 0;
+  noneOpt.text = "None";
+  select.append(noneOpt);
+  for (let i = 1; i <=duration; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.text = `${i}min`;
+    select.append(option);
+  }
+  select.value = 0;
+  div.append(select);
+  return div;
+}
+
 
 function renderMenu(data) {
   const container = UI.Container();
@@ -91,7 +121,8 @@ function renderMenu(data) {
   } else {
     table = renderGameModes(gameModes);
   }
-  container.append(h3, table);
+  const timer = renderTimer();
+  container.append(h3, table, timer);
   return container;
 }
 

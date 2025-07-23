@@ -443,3 +443,9 @@ form input {
   background-color: #616161;
 }
 
+.timer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+}

@@ -213,20 +213,15 @@ export async function getLobbies() {
     return data
 }
 
-export function lobbyEvents() {
-    const evntSource = new EventSource(`${API}/events/lobbies`);
-    return evntSource;
-}
-
 export async function createLobby(e) {
     e.preventDefault()
     const form = e.target
     const body = {
         name: form.lobbyName.value,
     }
-    const username = localStorage.getItem("username")
     const token = localStorage.getItem("token")
-    let res = await fetch(`${API}/account/${username}/lobby`, {
+    const username = localStorage.getItem("username")
+    let res = await fetch(`${API}/lobbies`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -278,8 +273,8 @@ export async function joinLobby(lobbyCode, playerName) {
         lobbyCode: lobbyCode,
         playerName: playerName,
     }
-    const res = await fetch(`${API}/lobbies/join`, {
-        method: "POST",
+    const res = await fetch(`${API}/lobbies`, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `${token}`,
@@ -333,7 +328,7 @@ export async function changeGameMode(gameMode) {
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/edit`, {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `${token}`
@@ -387,14 +382,19 @@ export async function startGame() {
         alert("Please select a game mode");
         return;
     }
+
+    const durationSelect = document.getElementById("duration-select");
+    const duration = durationSelect.value;
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
     const token = localStorage.getItem("playerToken")
     const body = {
         gameMode: gameMode,
+        withTimer: !(duration === "0"),
+        duration: parseInt(duration),
     }
     console.log("Starting game with mode: " + gameMode)
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -434,7 +434,7 @@ export async function getGameStats() {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -455,7 +455,7 @@ export async function deleteGame() {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
-    const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/game`, {
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

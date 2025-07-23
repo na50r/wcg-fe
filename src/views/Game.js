@@ -111,7 +111,9 @@ async function renderGame(game) {
     state.section.append(bar);
     const handler = createHandler(state);
     game.addEventListener("click", handler);
-    game.prepend(p);
+    if (targetWord.length > 0) {
+        game.prepend(p);
+    }
     return game;
 }
 
