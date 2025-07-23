@@ -117,6 +117,13 @@ async function renderGame(game) {
     return game;
 }
 
+function renderTimer() {
+    const h3 = document.createElement('h3');
+    h3.id = "timer-popup";
+    h3.innerText = "Timer";
+    return h3;
+}
+
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -125,6 +132,10 @@ export default class extends AbstractView {
 
     async getHtml() {
         const game = createGame();
-        return renderGame(game);
+        const div = document.createElement('div');
+        const h3 = renderTimer();
+        const renderedGame = await renderGame(game);
+        div.append(h3, renderedGame);
+        return div;
     }
 }

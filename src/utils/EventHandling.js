@@ -2,6 +2,7 @@ import { router } from "../main.js";
 import { isOwner } from "./Utility.js";
 import { eventSource } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
+import { renderTimer } from "../components/Timer.js";
 
 
 export function deleteLobbyEvent() {
@@ -56,7 +57,8 @@ export function handleLobbyEvents(event) {
   }
 
   if (data.type === "TIME_EVENT") {
-    console.log(data.secondsLeft)
+    console.log("Calling timer")
+    renderTimer(data.secondsLeft)
   }
 
   if (data === "GAME_OVER") {
