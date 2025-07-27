@@ -17,7 +17,7 @@ function renderPlayer(name, image, cnt) {
   const player = document.createElement('div');
   player.classList.add('player');
   const p = UI.p(name);
-  const c = UI.p(`Words: ${cnt}`);
+  const c = UI.p(`Points: ${cnt}`);
   const img = lobbyPicture(image);
   player.append(img, p, c);
   return player;
@@ -27,7 +27,7 @@ function renderPlayer(name, image, cnt) {
 function renderPlayers(data) {
   const scrollWrapper = document.createElement('div');
   scrollWrapper.classList.add('scroll-wrapper');
-  const players = data.playerWords.map(player => renderPlayer(player.playerName, player.image, player.wordCount));
+  const players = data.playerResults.map(player => renderPlayer(player.playerName, player.image, player.points));
   for (const player of players) {
     scrollWrapper.append(player);
   }

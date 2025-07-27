@@ -2,6 +2,10 @@ import AbstractView from "./AbstractView.js";
 import { getCombination } from "../utils/Calls.js";
 import { getPlayerWords } from "../utils/Calls.js";
 import * as UI from "../components/UI.js";
+import { setLobbyEventListener } from "../utils/EventHandling.js";
+import { isOwner } from "../utils/Utility.js";
+import { triggerEndGame } from "../utils/Calls.js";
+
 
 function createGame() {
     const container = document.createElement('div');
@@ -124,6 +128,15 @@ function renderTimer() {
     return h3;
 }
 
+function renderEndGameBtn () {
+    const trigger = document.createElement('div');
+    trigger.id = "end-game-btn-trigger";
+    const btn = UI.actionButton("End Game", triggerEndGame);
+    btn.id = "end-game-btn";
+    trigger.append(btn);
+    return trigger;
+}
+
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -131,11 +144,16 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
+        setLobbyEventListener();
         const game = createGame();
         const div = document.createElement('div');
         const h3 = renderTimer();
         const renderedGame = await renderGame(game);
         div.append(h3, renderedGame);
+        if (isOwner()) {
+            const btn = renderEndGameBtn();
+            div.append(btn);
+        }
         return div;
     }
 }

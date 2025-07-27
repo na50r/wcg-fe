@@ -56,6 +56,10 @@ export function handleLobbyEvents(event) {
     Navbar()
   }
 
+  if (data === "WOMBO_COMBO") {
+    router.navigate()
+  }
+
   if (data.type === "TIME_EVENT") {
     console.log("Calling timer")
     renderTimer(data.secondsLeft)

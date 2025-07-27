@@ -468,3 +468,21 @@ export async function deleteGame() {
         return;
     }
 }
+
+export async function triggerEndGame() {
+    const playerName = localStorage.getItem("playerName")
+    const token = localStorage.getItem("playerToken")
+    const lobbyCode = localStorage.getItem("lobbyCode")
+    const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/end`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        alert(`${msg.error}`)
+        return;
+    }
+}
