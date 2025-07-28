@@ -1,5 +1,5 @@
 export default {
-    base: "/wc-fe",
+    base: "/wcg-fe",
     server: {
         proxy: {
             '/events': {
