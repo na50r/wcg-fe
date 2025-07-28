@@ -3,7 +3,7 @@ export default {
     server: {
         proxy: {
             '/events': {
-                target: 'http://localhost:3030',
+                target: 'https://wcg-be.onrender.com',
                 changeOrigin: true,
             },
         },
