@@ -46,5 +46,7 @@ export function loggedIn() {
 
 
 export function isOwner() {
-    return localStorage.getItem("playerName") === localStorage.getItem("owner")
+    const cond = localStorage.getItem("playerName") === localStorage.getItem("owner")
+    const cond2 = localStorage.getItem('owner') !== undefined
+    return cond && cond2
 }

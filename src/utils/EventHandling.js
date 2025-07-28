@@ -1,9 +1,39 @@
 import { router } from "../main.js";
 import { isOwner } from "./Utility.js";
-import { eventSource } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
 import { renderTimer } from "../components/Timer.js";
+import { EventSource } from 'extended-eventsource';
 
+const API = import.meta.env.VITE_API;
+var eventSource = new EventSource(`${API}/events`);
+export function initOrUpdateEventSource() {
+  if (eventSource !== null) {
+    eventSource.close();
+  }
+  const playerToken = localStorage.getItem("playerToken")
+  if (playerToken !== null) {
+    eventSource = new EventSource(`${API}/events`, {
+      headers: {
+        "Authorization": `${playerToken}`
+      }
+    });
+  } else {
+    eventSource = new EventSource(`${API}/events`);
+  }
+}
+
+
+const EventMessage = {
+  PLAYER_JOINED: "PLAYER_JOINED",
+  LOBBY_CREATED: "LOBBY_CREATED",
+  PLAYER_LEFT: "PLAYER_LEFT",
+  LOBBY_DELETED: "LOBBY_DELETED",
+  GAME_STARTED: "GAME_STARTED",
+  GAME_OVER: "GAME_OVER",
+  GAME_DELETED: "GAME_DELETED",
+  ACCOUNT_UPDATE: "ACCOUNT_UPDATE",
+  WOMBO_COMBO_EVENT: "WOMBO_COMBO",
+}
 
 export function deleteLobbyEvent() {
   localStorage.removeItem("lobbies")
@@ -26,19 +56,58 @@ export function updateGameMode() {
 export function handleLobbyEvents(event) {
   let data = JSON.parse(event.data)
   console.log(data)
-  if (data === "PLAYER_JOINED" || data === "LOBBY_CREATED" || data === "PLAYER_LEFT") {
+  if (data === EventMessage.PLAYER_JOINED || data === EventMessage.LOBBY_CREATED || data === EventMessage.PLAYER_LEFT) {
     updateLobbyEvent();
     router.navigate();
   }
-  if (data === "LOBBY_DELETED") {
+  if (data === EventMessage.LOBBY_DELETED) {
     deleteLobbyEvent();
     router.navigateTo("/lobbies");
     router.navigate();
   }
-  if (data.gameMode !== undefined && !isOwner()) {
-    console.log("Game mode changed");
+
+  if (data.secondsLeft !== undefined) {
+    renderTimer(data.secondsLeft)
+  }
+
+
+  if (data === EventMessage.GAME_STARTED) {
+    localStorage.setItem("game", true)
+    router.navigateTo("/game");
+    router.navigate();
+    Navbar()
+  }
+
+  if (data === EventMessage.WOMBO_COMBO_EVENT) {
+    // Player reached one target words; re-render game to load new target word
+    router.navigate()
+  }
+
+  if (data === EventMessage.GAME_OVER) {
+    localStorage.removeItem("game")
+    router.navigateTo(`/game/end`);
+    router.navigate();
+    Navbar()
+  }
+  if (data === EventMessage.GAME_DELETED) {
+    router.navigateTo(`/lobby/${localStorage.getItem("lobbyCode")}`);
+    router.navigate();
+    Navbar()
+  }
+  if (data === EventMessage.LOBBY_DELETED) {
+    localStorage.removeItem("lobbyCode")
+    localStorage.removeItem("playerName")
+    localStorage.removeItem("playerToken")
+    localStorage.removeItem("lobby")
+    router.navigateTo("/lobbies");
+    router.navigate();
+    Navbar()
+  }
+  if (data === EventMessage.ACCOUNT_UPDATE) {
+    localStorage.removeItem("account")
+  }
+  if (data.gameMode !== '' && !isOwner()) {
     const table = document.getElementById("gameModes");
-    console.log("Table:", table);
     if (!table) return;
     const rows = table.querySelectorAll("tr");
     for (const row of rows) {
@@ -49,47 +118,14 @@ export function handleLobbyEvents(event) {
       }
     }
   }
-  if (data === "GAME_STARTED") {
-    localStorage.setItem("game", true)
-    router.navigateTo("/game");
-    router.navigate();
-    Navbar()
-  }
 
-  if (data === "WOMBO_COMBO") {
-    router.navigate()
-  }
-
-  if (data.type === "TIME_EVENT") {
-    console.log("Calling timer")
-    renderTimer(data.secondsLeft)
-  }
-
-  if (data === "GAME_OVER") {
-    localStorage.removeItem("game")
-    localStorage.removeItem("targetWord")
-    router.navigateTo(`/game/end`);
-    router.navigate();
-    Navbar()
-  }
-  if (data === "GAME_DELETED") {
-    router.navigateTo(`/lobby/${localStorage.getItem("lobbyCode")}`);
-    router.navigate();
-    Navbar()
-  }
-  if (data === "LOBBY_DELETED") {
-    localStorage.removeItem("lobbyCode")
-    localStorage.removeItem("playerName")
-    localStorage.removeItem("playerToken")
-    localStorage.removeItem("lobby")
-    router.navigateTo("/lobbies");
-    router.navigate();
-    Navbar()
-  }
-  if (data === "ACCOUNT_UPDATE") {
-    localStorage.removeItem("account")
+  if (data.duration !== -1 && !isOwner()) {
+    const select = document.getElementById("duration-select");
+    select.value = data.duration;
   }
 }
+
+
 
 export function setLobbyEventListener() {
   eventSource.addEventListener('msg', handleLobbyEvents);

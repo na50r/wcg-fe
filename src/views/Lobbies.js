@@ -95,7 +95,6 @@ export default class extends AbstractView {
     setLobbyEventListener();
     if (loadLobbies() === null) {
       const data = await getLobbies()
-      console.log(data)
       cacheLobbies(data)
     }
     const data = loadLobbies()

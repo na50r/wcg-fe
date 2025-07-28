@@ -8,30 +8,9 @@ import CreateLobby from './views/CreateLobby.js'
 import Lobby from './views/Lobby.js'
 import Game from './views/Game.js'
 import GameEnd from './views/GameEnd.js'
-
-import { EventSource } from 'extended-eventsource';
-
-const API = import.meta.env.VITE_API;
-export var eventSource = new EventSource(`${API}/events`);
-export function initOrUpdateEventSource() {
-  if (eventSource !== null) {
-    eventSource.close();
-  }
-  const playerToken = localStorage.getItem("playerToken")
-  if (playerToken !== null) {
-    eventSource = new EventSource(`${API}/events`, {
-      headers: {
-        "Authorization": `${playerToken}`
-      }
-    });
-  } else {
-    eventSource = new EventSource(`${API}/events`);
-  }
-}
-
-import { Navbar } from './components/Navbar.js';
+import { initOrUpdateEventSource } from './utils/EventHandling.js';
+import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
-
 
 const routes = [
   { path: "/", view: Lobbies },
@@ -49,17 +28,5 @@ const routes = [
 export const router = new Router(routes)
 router.start()
 
-function navBehaviour() {
-  document.body.addEventListener("click", e => {
-    if (e.target.matches("[data-link]")) {
-      e.preventDefault();
-      console.log(e.target.href)
-      router.navigateTo(e.target.href)
-    }
-  })
-}
-
-document.addEventListener("DOMContentLoaded", Navbar);
 document.addEventListener("load", Navbar);
-document.addEventListener("DOMContentLoaded", navBehaviour);
-document.addEventListener("DOMContentLoaded", initOrUpdateEventSource);
+document.addEventListener("DOMContentLoaded", () => { initOrUpdateEventSource(), Navbar(), navBehaviour() });

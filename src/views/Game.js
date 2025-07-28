@@ -4,7 +4,8 @@ import { getPlayerWords } from "../utils/Calls.js";
 import * as UI from "../components/UI.js";
 import { setLobbyEventListener } from "../utils/EventHandling.js";
 import { isOwner } from "../utils/Utility.js";
-import { triggerEndGame } from "../utils/Calls.js";
+import { endGame } from "../utils/Calls.js";
+import { setupTimer } from "../components/Timer.js";
 
 
 function createGame() {
@@ -73,7 +74,7 @@ function formaList(data) {
     return list;
 }
 
-function createHandler(state) {
+function gameHandler(state) {
     return async (e) => {
         const copy = e.target.closest('.element');
         if (copy) {
@@ -113,7 +114,7 @@ async function renderGame(game) {
     renderElems(state, currList);
     const bar = renderBar(...state.selected);
     state.section.append(bar);
-    const handler = createHandler(state);
+    const handler = gameHandler(state);
     game.addEventListener("click", handler);
     if (targetWord.length > 0) {
         game.prepend(p);
@@ -121,17 +122,10 @@ async function renderGame(game) {
     return game;
 }
 
-function renderTimer() {
-    const h3 = document.createElement('h3');
-    h3.id = "timer-popup";
-    h3.innerText = "Timer";
-    return h3;
-}
-
 function renderEndGameBtn () {
     const trigger = document.createElement('div');
     trigger.id = "end-game-btn-trigger";
-    const btn = UI.actionButton("End Game", triggerEndGame);
+    const btn = UI.actionButton("End Game", endGame);
     btn.id = "end-game-btn";
     trigger.append(btn);
     return trigger;
@@ -147,9 +141,9 @@ export default class extends AbstractView {
         setLobbyEventListener();
         const game = createGame();
         const div = document.createElement('div');
-        const h3 = renderTimer();
         const renderedGame = await renderGame(game);
-        div.append(h3, renderedGame);
+        const timer = setupTimer();
+        div.append(timer, renderedGame);
         if (isOwner()) {
             const btn = renderEndGameBtn();
             div.append(btn);

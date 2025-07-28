@@ -1,8 +1,9 @@
 import { router } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
-import { initOrUpdateEventSource } from "../main.js";
+import { initOrUpdateEventSource } from "./EventHandling.js";
 
 const API = import.meta.env.VITE_API;
+
 
 export async function register(e) {
     e.preventDefault()
@@ -232,7 +233,6 @@ export async function createLobby(e) {
     if (res.ok) {
         alert("Successfully created lobby")
         const data = await res.json()
-        console.log(data)
         localStorage.setItem("lobbyCode", data.lobby.lobbyCode)
         localStorage.setItem("playerName", username)
         localStorage.setItem("playerToken", data.token)
@@ -287,7 +287,6 @@ export async function joinLobby(lobbyCode, playerName) {
         return;
     }
     const data = await res.json()
-    console.log(data)
     localStorage.setItem("lobbyCode", lobbyCode)
     localStorage.setItem("playerName", playerName)
     localStorage.setItem("playerToken", data.token)
@@ -323,7 +322,7 @@ export async function leaveLobby() {
     Navbar()
 }
 
-export async function changeGameMode(gameMode) {
+export async function editGame(gameMode = null, duration = null) {
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")
     const playerName = localStorage.getItem("playerName")
@@ -333,7 +332,7 @@ export async function changeGameMode(gameMode) {
             "Content-Type": "application/json",
             "Authorization": `${token}`
         },
-        body: JSON.stringify({ gameMode: gameMode })
+        body: JSON.stringify({ gameMode: gameMode, duration: duration })
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -426,7 +425,6 @@ export async function getPlayerWords() {
         return;
     }
     const data = await res.json()
-    console.log(data)
     return data
 }
 
@@ -447,7 +445,6 @@ export async function getGameStats() {
         return;
     }
     const data = await res.json()
-    console.log(data)
     return data
 }
 
@@ -469,7 +466,7 @@ export async function deleteGame() {
     }
 }
 
-export async function triggerEndGame() {
+export async function endGame() {
     const playerName = localStorage.getItem("playerName")
     const token = localStorage.getItem("playerToken")
     const lobbyCode = localStorage.getItem("lobbyCode")

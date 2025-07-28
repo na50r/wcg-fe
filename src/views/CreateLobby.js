@@ -31,7 +31,6 @@ export default class extends AbstractView {
       router.navigateTo("/login");
       return;
     }
-    console.log(import.meta.env.VITE_SOME_KEY)
     return renderCreateLobby();
   }
 }

@@ -1,3 +1,5 @@
+import { router } from "../main.js";
+
 function loggedIn() {
     return localStorage.getItem("token") !== null
 }
@@ -99,6 +101,17 @@ function lobbyView() {
     }
     const nav = document.querySelector("nav")
     nav.replaceWith(newNav)
+}
+
+
+export function navBehaviour() {
+  document.body.addEventListener("click", e => {
+    if (e.target.matches("[data-link]")) {
+      e.preventDefault();
+      console.log(e.target.href)
+      router.navigateTo(e.target.href)
+    }
+  })
 }
 
 export function Navbar() {

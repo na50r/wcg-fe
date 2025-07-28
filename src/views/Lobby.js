@@ -4,7 +4,7 @@ import { getLobby } from "../utils/Calls.js";
 import { leaveLobby } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
 import { setLobbyEventListener } from "../utils/EventHandling.js";
-import { changeGameMode } from "../utils/Calls.js";
+import { editGame } from "../utils/Calls.js";
 import { isOwner } from "../utils/Utility.js";
 import { startGame } from "../utils/Calls.js";
 
@@ -69,7 +69,7 @@ function renderGameModesForOwner(gameModes) {
       }
       row.classList.add('selected');
       selectedMode = row;
-      changeGameMode(mode);
+      editGame(mode, -1);
     });
 
     table.append(row);
@@ -105,6 +105,13 @@ function renderSelection(duration) {
   }
   select.value = 0;
   div.append(select);
+  select.addEventListener('change', (event) => {
+    event.preventDefault();
+    editGame('', Number(select.value));
+  });
+  if (!isOwner()) {
+    select.disabled = true;
+  }
   return div;
 }
 
