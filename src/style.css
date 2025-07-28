@@ -162,8 +162,8 @@ form input {
 }
 
 #lobby-pic {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
@@ -312,11 +312,11 @@ form input {
 }
 
 .lobby .menu {
-  border: 1px solid #ff0000;
+  height: 12.5em;
   width: 12.5em;
 }
 .lobby .players {
-  border: 1px solid #6f00ff;
+  height: 12.5em;
   width: 12.5em;
 }
 .game-end .player {
@@ -353,7 +353,7 @@ form input {
 }
 
 .lobby .players .player p {
-  margin: 1rem;
+  margin: 0.75rem;
 }
 
 .lobbies .lobby p {
