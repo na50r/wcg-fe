@@ -1,17 +1,21 @@
 {
   "name": "fe",
+  "homepage": "https://na50r.github.io/wc-fe/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "vite": "^7.0.4"
   },
   "dependencies": {
-    "extended-eventsource": "^2.1.0"
+    "extended-eventsource": "^2.1.0",
+    "gh-pages": "^6.3.0"
   }
 }

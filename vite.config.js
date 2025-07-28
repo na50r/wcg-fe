@@ -1,4 +1,5 @@
 export default {
+    base: "/wc-fe",
     server: {
         proxy: {
             '/events': {
@@ -8,3 +9,4 @@ export default {
         },
     },
 };
+
