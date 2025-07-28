@@ -1,5 +1,4 @@
 export default {
-    base: '/',
     server: {
         proxy: {
             '/events': {
