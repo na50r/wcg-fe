@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --dotfiles --spa"
+    "deploy": "gh-pages -d dist --dotfiles"
   },
   "devDependencies": {
     "vite": "^7.0.4"
