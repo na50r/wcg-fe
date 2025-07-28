@@ -1,4 +1,5 @@
 export default {
+    base: '/',
     server: {
         proxy: {
             '/events': {
@@ -8,4 +9,3 @@ export default {
         },
     },
 };
-
