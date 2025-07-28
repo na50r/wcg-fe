@@ -12,7 +12,7 @@ import { initOrUpdateEventSource } from './utils/EventHandling.js';
 import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
 
-const routes = [
+var routes = [
   { path: "/", view: Lobbies },
   { path: "/login", view: Login },
   { path: "/register", view: Register },

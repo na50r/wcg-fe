@@ -10,8 +10,6 @@ function getParams(match) {
     }))
 }
 
-
-
 export default class Router {
     constructor(routes)
     {
@@ -22,7 +20,7 @@ export default class Router {
 
     async navigate() {
         const potentialMatches = this.routes.map(route => {
-            const path = location.pathname
+            const path = location.pathname;
             return { route: route, result: path.match(pathToRegex(route.path)) }
         });
         let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
