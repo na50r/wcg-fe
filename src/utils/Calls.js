@@ -208,7 +208,7 @@ export async function getLobbies() {
     if (!res.ok) {
         const msg = await res.json()
         alert(`${msg.error}`)
-        return;
+        return [];
     }
     const data = await res.json()
     return data

@@ -1,10 +1,15 @@
-export default {
-    server: {
-        proxy: {
-            '/events': {
-                target: 'https://wcg-be.onrender.com',
-                changeOrigin: true,
+import { defineConfig, loadEnv } from 'vite';
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd());
+
+    return {
+        server: {
+            proxy: {
+                '/events': {
+                    target: env.VITE_API,
+                    changeOrigin: true,
+                },
             },
         },
-    },
-};
+    };
+});
