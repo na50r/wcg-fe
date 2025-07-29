@@ -53,7 +53,7 @@ export function updateGameMode() {
 }
 
 
-export function handleLobbyEvents(event) {
+export function handleEvents(event) {
   let data = JSON.parse(event.data)
   console.log(data)
   if (data === EventMessage.PLAYER_JOINED || data === EventMessage.LOBBY_CREATED || data === EventMessage.PLAYER_LEFT) {
@@ -127,6 +127,6 @@ export function handleLobbyEvents(event) {
 
 
 
-export function setLobbyEventListener() {
-  eventSource.addEventListener('msg', handleLobbyEvents);
+export function setEventListeners() {
+  eventSource.addEventListener('msg', handleEvents);
 }

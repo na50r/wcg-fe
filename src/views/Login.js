@@ -2,7 +2,7 @@ import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
 import {login} from "../utils/Calls.js";
-import { toggleButton } from "../utils/Utility.js";
+import { createToggleHandler } from "../utils/Utility.js";
 
 function renderLogin() {
   const container = UI.Container();
@@ -10,6 +10,7 @@ function renderLogin() {
   const form = UI.form(login);
   const input = UI.input("username", "username", "text");
   const password = UI.input("password", "password", "password");
+  const toggleButton = createToggleHandler(["username", "password"], "enter-btn")
   input.id = "username"
   password.id = "password"
   input.addEventListener("input", toggleButton)

@@ -12,6 +12,7 @@
     "vite": "^7.0.4"
   },
   "dependencies": {
-    "extended-eventsource": "^2.1.0"
+    "extended-eventsource": "^2.1.0",
+    "sweetalert2": "^11.22.2"
   }
 }

@@ -1,10 +1,11 @@
 import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
-import {account} from "../utils/Calls.js";
+import { account } from "../utils/Calls.js";
 import { cacheAccount, loadAccount } from "../utils/Account.js";
 import { ImageSelector } from "../components/ImageSelector.js";
-import { ChangeUsername, ChangePassword } from "../components/ChangeAccount.js";
+import { ChangePassword } from "../components/ChangeAccount.js";
+import { Popup } from "../utils/Utility.js";
 
 function renderTime(stamp) {
   const date = new Date(stamp);
@@ -12,7 +13,7 @@ function renderTime(stamp) {
   return localDate;
 }
 
-function renderImage(imageEnc, action=()=>{document.querySelector(".image-selector").classList.add("open")}) {
+function renderImage(imageEnc, action = () => { }) {
   const img = new Image();
   img.alt = "Profile Picture";
   img.id = 'profile-pic'
@@ -21,28 +22,28 @@ function renderImage(imageEnc, action=()=>{document.querySelector(".image-select
   return img;
 }
 
-function renderAccount(data = {}) {
+function renderAccount(data = {}, imgSelector) {
   const container = UI.Container();
   const h1 = UI.h1("Account");
-  const img = renderImage(data.image);
+  const img = renderImage(data.image, () => { Popup(imgSelector) });
   container.append(h1, img);
   const table = document.createElement("table");
-  table.classList.add("main-table");
+  table.classList.add("account");
 
   const info = [
-  { name: "Username", value: data.username },
-  { name: "Wins", value: data.wins },
-  { name: "Losses", value: data.losses },
-  { name: "Registered At", value: renderTime(data.createdAt) },
-  { name: "Profile Picture", value: data.imageName },
-  { name: "Status", value: data.status },
+    { name: "Username", value: data.username },
+    { name: "Wins", value: data.wins },
+    { name: "Losses", value: data.losses },
+    { name: "Registered At", value: renderTime(data.createdAt) },
+    { name: "Profile Picture", value: data.imageName },
+    { name: "Status", value: data.status },
   ]
 
   for (const item of info) {
     const row = UI.row([UI.column(item.name), UI.column(item.value)]);
     if (item.name === "Username") {
       row.addEventListener("click", () => {
-        document.querySelector(".change-username").classList.add("open");
+        document.getElementById("change-username").classList.add("open");
       });
     }
     table.append(row);
@@ -63,25 +64,24 @@ export default class extends AbstractView {
     const username = this.username
     const storedUsername = localStorage.getItem("username")
     if (username !== storedUsername) {
-        alert("You are not allowed to view this page")
-        router.navigateTo(`/account/${storedUsername}`)
-        return;
+      alert("You are not allowed to view this page")
+      router.navigateTo(`/account/${storedUsername}`)
+      return;
     }
-    if (loadAccount()=== null) {
+    if (loadAccount() === null) {
       const data = await account(username)
       cacheAccount(data)
     }
 
     const data = loadAccount()
     const imgSelector = await ImageSelector();
-    const changeUsername = ChangeUsername();
     const changePassword = await ChangePassword();
     const container = document.createElement("div");
     const changePwButton = UI.actionButton("Change Password", () => {
-      document.querySelector(".change-password").classList.add("open");
+      Popup(changePassword)
     });
-    const acc = renderAccount(data);
-    container.append(imgSelector, changePassword, changeUsername, acc, changePwButton);
+    const acc = renderAccount(data, imgSelector);
+    container.append(acc, changePwButton);
     return container;
   }
 }

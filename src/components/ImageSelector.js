@@ -20,7 +20,8 @@ export async function ImageSelector() {
   const data = loadImages()
   var selectedImage = null;
   const container = UI.Container();
-  container.classList.add("image-selector");
+  container.id = "image-selector";
+  container.classList.add("modal-overlay-1");
   const table = document.createElement("table");
   for (const item of Object.values(data.names)) {
     const row = UI.row([UI.column(item)]);
@@ -41,8 +42,13 @@ export async function ImageSelector() {
     changeImage(selectedImage.innerText)
     container.classList.remove("open");
   });
+
+  const close = () => {
+    const app = document.getElementById("app")
+    app.removeChild(container);
+  }
   const canclBtn = UI.actionButton("Cancel", () => {
-    container.classList.remove("open");
+    close()
   });
   const btnBar = UI.buttonBar([saveBtn, canclBtn]);
   container.append(btnBar);

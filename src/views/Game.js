@@ -2,7 +2,7 @@ import AbstractView from "./AbstractView.js";
 import { getCombination } from "../utils/Calls.js";
 import { getPlayerWords } from "../utils/Calls.js";
 import * as UI from "../components/UI.js";
-import { setLobbyEventListener } from "../utils/EventHandling.js";
+import { setEventListeners } from "../utils/EventHandling.js";
 import { isOwner } from "../utils/Utility.js";
 import { endGame } from "../utils/Calls.js";
 import { setupTimer } from "../components/Timer.js";
@@ -138,7 +138,7 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
-        setLobbyEventListener();
+        setEventListeners();
         const game = createGame();
         const div = document.createElement('div');
         const renderedGame = await renderGame(game);

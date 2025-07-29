@@ -1,9 +1,13 @@
 import { router } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
 import { initOrUpdateEventSource } from "./EventHandling.js";
+import swal from 'sweetalert2'
 
 const API = import.meta.env.VITE_API;
 
+async function showAlert(msg) {
+    await swal.fire(msg)
+}
 
 export async function register(e) {
     e.preventDefault()
@@ -20,11 +24,11 @@ export async function register(e) {
         body: JSON.stringify(body),
     })
     if (res.ok) {
-        alert("Successfully registered")
+        showAlert("Successfully registered!")
         router.navigateTo("/login")
     } else {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
     }
 }
 
@@ -47,13 +51,13 @@ export async function login(e) {
     if (res.ok) {
         const data = await res.json()
         localStorage.setItem("token", data.token)
-        alert("Successfully logged in")
+        showAlert("Successfully logged in!")
         router.navigateTo(`/account/${un}`)
         router.navigate()
         Navbar()
     } else {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
     }
 }
 
@@ -68,10 +72,10 @@ export async function logout() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
-    alert("Successfully logged out")
+    showAlert("Successfully logged out!")
     localStorage.removeItem("token")
     localStorage.removeItem("username")
     localStorage.removeItem("account")
@@ -95,7 +99,7 @@ export async function account(username) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -113,7 +117,7 @@ export async function getImages(username) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -139,7 +143,7 @@ export async function changeImage(imageName) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     localStorage.removeItem("account")
@@ -163,7 +167,7 @@ export async function editUsername(newUsername) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     localStorage.removeItem("account")
@@ -189,11 +193,11 @@ export async function editPassword(oldPassword, newPassword) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const resp = await res.json()
-    alert(resp.message)
+    showAlert(resp.message)
     localStorage.removeItem("account")
     router.navigate()
 }
@@ -207,7 +211,7 @@ export async function getLobbies() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return [];
     }
     const data = await res.json()
@@ -231,7 +235,6 @@ export async function createLobby(e) {
         body: JSON.stringify(body),
     })
     if (res.ok) {
-        alert("Successfully created lobby")
         const data = await res.json()
         localStorage.setItem("lobbyCode", data.lobby.lobbyCode)
         localStorage.setItem("playerName", username)
@@ -243,7 +246,7 @@ export async function createLobby(e) {
         Navbar()
     } else {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
     }
 }
 
@@ -257,7 +260,7 @@ export async function getLobby(lobbyCode, playerName, playerToken) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -283,7 +286,7 @@ export async function joinLobby(lobbyCode, playerName) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -310,7 +313,7 @@ export async function leaveLobby() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     localStorage.removeItem("lobbyCode")
@@ -336,7 +339,7 @@ export async function editGame(gameMode = null, duration = null) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
 }
@@ -359,7 +362,7 @@ export async function getCombination(elemA, elemB) {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -378,7 +381,7 @@ export async function startGame() {
         }
     }
     if (gameMode === null) {
-        alert("Please select a game mode");
+        showAlert("Please select a game mode")
         return;
     }
 
@@ -392,7 +395,6 @@ export async function startGame() {
         withTimer: !(duration === "0"),
         duration: parseInt(duration),
     }
-    console.log("Starting game with mode: " + gameMode)
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "POST",
         headers: {
@@ -403,7 +405,7 @@ export async function startGame() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
 }
@@ -421,7 +423,7 @@ export async function getPlayerWords() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -441,7 +443,7 @@ export async function getGameStats() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
     const data = await res.json()
@@ -461,7 +463,7 @@ export async function deleteGame() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
 }
@@ -479,7 +481,7 @@ export async function endGame() {
     })
     if (!res.ok) {
         const msg = await res.json()
-        alert(`${msg.error}`)
+        showAlert(`${msg.error}`)
         return;
     }
 }

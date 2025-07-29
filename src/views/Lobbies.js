@@ -6,7 +6,8 @@ import { router } from "../main.js";
 import { loggedIn } from "../utils/Utility.js";
 import { joinLobby } from "../utils/Calls.js";
 import { PlayerLogin } from "../components/PlayerLogin.js";
-import { setLobbyEventListener } from "../utils/EventHandling.js";
+import { setEventListeners } from "../utils/EventHandling.js";
+import { Popup } from "../utils/Utility.js";
 
 function cacheLobbies(data) {
   localStorage.setItem("lobbies", JSON.stringify(data))
@@ -30,12 +31,10 @@ function renderLobby(name, image, playerCount) {
 
 function joinSelectedLobby(selectedLobby) {
   const lobbyCode = selectedLobby.querySelector('p').innerText;
-  console.log(lobbyCode)
   const playerName = localStorage.getItem("username");
   if (playerName === null) {
-    const playerLogin = document.querySelector(".player-login");
-    playerLogin.classList.add("open");
-    playerLogin.dataset.lobbyCode = lobbyCode;
+    const playerLogin = PlayerLogin(lobbyCode);
+    Popup(playerLogin)
     return;
   }
   joinLobby(lobbyCode, playerName);
@@ -92,15 +91,14 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    setLobbyEventListener();
+    setEventListeners();
     if (loadLobbies() === null) {
       const data = await getLobbies()
       cacheLobbies(data)
     }
     const data = loadLobbies()
     const container = document.createElement("div");
-    const playerLogin = PlayerLogin();
-    container.append(playerLogin, renderLobbies(data));
+    container.append(renderLobbies(data));
     return container;
   }
 }

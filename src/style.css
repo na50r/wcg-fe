@@ -18,17 +18,6 @@ img {
   border: 1px solid #0e0e0e;
 }
 
-#profile-pic {
-  justify-self: center;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid #0e0e0e;
-  margin-bottom: 1em;
-  background-color: #000000;
-
-}
-
 body {
   display: flex;
   place-items: center;
@@ -52,7 +41,7 @@ nav {
   z-index: 10;
 }
 
-.nav-trigger {
+#nav-trigger {
   position: fixed;
   top: 0;
   left: 0;
@@ -61,7 +50,7 @@ nav {
   z-index: 10;
 }
 
-.nav-trigger:hover+nav,
+#nav-trigger:hover+nav,
 nav:hover {
   opacity: 1;
   pointer-events: auto;
@@ -116,49 +105,24 @@ nav:hover {
   padding: 1em;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1em;
-}
-
-form input {
-  margin: 5px 0;
-  padding: 8px;
-  width: 200px;
-}
-
-
-.main-table .col {
-  border-radius: 5px;
-  text-align: center;
-  padding: 8px;
-}
-
-.main-table .row {
-  border-radius: 5px;
-  text-align: center;
-  padding: 8px;
-}
-
-.main-table .row:nth-child(even) {
-  background-color: #3f3f3f;
-}
-
-.main-table .row:hover {
-  background-color: #5f5f5f;
-}
-
 
 #profile-pic {
+  justify-self: center;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 1px solid #0e0e0e;
+  margin-bottom: 1em;
+  background-color: #000000;
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+#profile-pic:hover {
+  border: 1px solid #ffffff;
 }
 
 #lobby-pic {
@@ -172,12 +136,31 @@ form input {
   border: none;
 }
 
-
-#profile-pic:hover {
-  border: 1px solid #ffffff;
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
 }
 
-.player-login {
+form input {
+  margin: 5px 0;
+  padding: 8px;
+  width: 200px;
+}
+
+.account td {
+  border-radius: 5px;
+  text-align: center;
+  padding: 8px;
+}
+
+.account tr:nth-child(even) {
+  background-color: #3f3f3f;
+}
+
+
+.modal-overlay-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -188,95 +171,36 @@ form input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: -1;
-  opacity: 0;
+  z-index: 999;
+  opacity: 1;
 }
 
-.player-login.open {
+.modal-overlay-1.open {
   opacity: 1;
   z-index: 999;
 }
 
-.change-username {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-  opacity: 0;
-}
 
-.change-username.open {
-  opacity: 1;
-  z-index: 999;
-}
-
-.change-password {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-  opacity: 0;
-}
-
-.change-password.open {
-  opacity: 1;
-  z-index: 999;
-}
-
-.image-selector {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-  opacity: 0;
-}
-
-.image-selector .scroll-wrapper {
+#image-selector .scroll-wrapper {
   overflow-y: auto;
   max-height: 40vh;
 }
 
-.image-selector.open {
-  opacity: 1;
-  z-index: 999;
-}
-
-.image-selector table {
+#image-selector table {
   width: 100%;
 }
 
-.image-selector tr {
+#image-selector tr {
   height: 40px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.image-selector tr:hover {
+#image-selector tr:hover {
   background-color: #5f5f5f;
 }
 
-.image-selector tr.selected {
+#image-selector tr.selected {
   background-color: #3f3f3f;
 }
 
@@ -284,7 +208,7 @@ form input {
   background-color: #3f3f3f;
 }
 
-.lobby .menu .row.selected {
+.lobby .menu tr.selected {
   color: #00aaff;
 }
 
@@ -296,7 +220,7 @@ form input {
   border: 1px solid #0e0e0e;
   border-radius: 10px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
   margin-bottom: 1em;
   gap: 1em;
@@ -315,18 +239,26 @@ form input {
   height: 12.5em;
   width: 12.5em;
 }
+
 .lobby .players {
   height: 12.5em;
   width: 12.5em;
 }
+
 .game-end .player {
-    border: 1px solid #0e0e0e;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 0.5em;
+  width: 15em;
+  border: 1px solid #0e0e0e;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 0.5em;
 }
+
+.game-end .player.current {
+  background-color: #3a3a3a;
+}
+
 .game-end .player p {
   margin: 1rem;
 }
@@ -347,9 +279,10 @@ form input {
   border: 1px solid #0e0e0e;
   border-radius: 10px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin-bottom: 0.5em;
+  justify-content: space-around;
+  width: 9.5em;
 }
 
 .lobby .players .player p {
@@ -374,7 +307,7 @@ form input {
 }
 
 
-#gamebox {
+.gamebox {
   background-color: #a2a2a2;
   border-radius: 10px;
   border: 1px solid #0e0e0e;
@@ -386,7 +319,7 @@ form input {
   min-width: min-content
 }
 
-#gamebox section {
+.gamebox section {
   background-color: #9f9f9f;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -396,7 +329,7 @@ form input {
   height: 5em;
 }
 
-#gamebox aside {
+.gamebox aside {
   background-color: #6e6e6e;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -408,14 +341,14 @@ form input {
   padding: 1em;
 }
 
-#gamebox #bar {
+.gamebox #bar {
   display: flex;
   align-items: flex-start;
   gap: .5em;
   padding: 1em;
 }
 
-#gamebox #bar .symbol {
+.gamebox #bar .symbol {
   font-weight: bold;
   font-size: 2em;
   margin: 0 0.5em;
@@ -433,7 +366,6 @@ form input {
   user-select: none;
 }
 
-
 .gamebox .element span {
   margin-right: 5px;
   white-space: nowrap;
@@ -443,7 +375,7 @@ form input {
   background-color: #616161;
 }
 
-.timer {
+.lobby .menu .timer {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -486,4 +418,16 @@ form input {
 #end-game-btn-trigger:hover #end-game-btn {
   opacity: 1;
   pointer-events: auto;
+}
+
+.swal2-popup {
+  background-color: #333;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.swal2-confirm {
+  background-color: #636363;
+  color: white;
+  border-radius: 8px;
 }

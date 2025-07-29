@@ -3,7 +3,7 @@ import * as UI from "../components/UI.js";
 import { getLobby } from "../utils/Calls.js";
 import { leaveLobby } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
-import { setLobbyEventListener } from "../utils/EventHandling.js";
+import { setEventListeners } from "../utils/EventHandling.js";
 import { editGame } from "../utils/Calls.js";
 import { isOwner } from "../utils/Utility.js";
 import { startGame } from "../utils/Calls.js";
@@ -161,7 +161,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    setLobbyEventListener();
+    setEventListeners();
     const lobbyCode = this.lobbyCode
     const playerName = localStorage.getItem("playerName")
     const playerToken = localStorage.getItem("playerToken")

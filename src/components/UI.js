@@ -27,14 +27,12 @@ export function h2(text) {
 
 export function column(text) {
     const col = document.createElement('td');
-    col.classList.add('col');
     col.innerText = text;
     return col;
 }
 
 export function row(cols) {
     const row = document.createElement('tr');
-    row.classList.add('row');
     row.append(...cols)
     return row;
 }
