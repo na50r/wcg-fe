@@ -5,8 +5,6 @@ import * as UI from "../components/UI.js";
 import { setEventListeners } from "../utils/EventHandling.js";
 import { isOwner } from "../utils/Utility.js";
 import { endGame } from "../utils/Calls.js";
-import { setupTimer } from "../components/Timer.js";
-
 
 function createGame() {
     const container = document.createElement('div');
@@ -142,8 +140,7 @@ export default class extends AbstractView {
         const game = createGame();
         const div = document.createElement('div');
         const renderedGame = await renderGame(game);
-        const timer = setupTimer();
-        div.append(timer, renderedGame);
+        div.append(renderedGame);
         if (isOwner()) {
             const btn = renderEndGameBtn();
             div.append(btn);
