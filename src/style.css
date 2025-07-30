@@ -312,6 +312,32 @@ form input {
   max-height: 40vh;
 }
 
+.leaderboard .scroll-wrapper .entry {
+  border: 1px solid #0e0e0e;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+  justify-content: space-around;
+  width: 15em;
+}
+
+.leaderboard .scroll-wrapper .entry p {
+  margin: 0.75rem;
+}
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.leaderboard .scroll-wrapper {
+  overflow-y: auto;
+  max-height: 40vh;
+}
 
 .gamebox {
   background-color: #a2a2a2;

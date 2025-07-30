@@ -29,7 +29,7 @@ function loggedOutView() {
 
 function loggedInView() {
     const newNav = document.createElement("nav")
-    const routes = ["/lobbies", `/account/${localStorage.getItem("username")}`, "/logout"]
+    const routes = ["/lobbies", `/leaderboard`, `/account/${localStorage.getItem("username")}`, "/logout"]
     for (const route of routes) {
         const a = document.createElement("a")
         a.href = route

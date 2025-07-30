@@ -8,6 +8,8 @@ import CreateLobby from './views/CreateLobby.js'
 import Lobby from './views/Lobby.js'
 import Game from './views/Game.js'
 import GameEnd from './views/GameEnd.js'
+import Leaderboard from './views/Leaderboard.js'
+
 import { initOrUpdateEventSource } from './utils/EventHandling.js';
 import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
@@ -23,6 +25,7 @@ var routes = [
   { path: "/lobby/:lobbyCode", view: Lobby },
   { path: "/game", view: Game },
   { path: "/game/end", view: GameEnd },
+  { path: "/leaderboard", view: Leaderboard },
 ]
 
 export const router = new Router(routes)

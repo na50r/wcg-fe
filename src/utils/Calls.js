@@ -69,6 +69,14 @@ export async function login(e) {
 
 export async function logout() {
     const token = localStorage.getItem("token")
+    showAlert("Successfully logged out!")
+    localStorage.removeItem("token")
+    localStorage.removeItem("username")
+    localStorage.removeItem("account")
+    localStorage.removeItem("lobbies")
+    localStorage.removeItem("lobbyCode")
+    localStorage.removeItem("playerName")
+    localStorage.removeItem("playerToken")
     const res = await fetch(`${API}/logout`, {
         method: "POST",
         headers: {
@@ -81,14 +89,6 @@ export async function logout() {
         showAlert(`${msg.error}`)
         return;
     }
-    showAlert("Successfully logged out!")
-    localStorage.removeItem("token")
-    localStorage.removeItem("username")
-    localStorage.removeItem("account")
-    localStorage.removeItem("lobbies")
-    localStorage.removeItem("lobbyCode")
-    localStorage.removeItem("playerName")
-    localStorage.removeItem("playerToken")
     router.navigateTo("/")
     router.navigate()
     Navbar()
@@ -490,4 +490,23 @@ export async function endGame() {
         showAlert(`${msg.error}`)
         return;
     }
+}
+
+export async function getLeaderboard() {
+    const username = localStorage.getItem("username")
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${API}/account/${username}/leaderboard`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+        }
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        showAlert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
 }

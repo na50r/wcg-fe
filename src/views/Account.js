@@ -1,12 +1,12 @@
 import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
-import { account } from "../utils/Calls.js";
+import { account, getLeaderboard } from "../utils/Calls.js";
 import { cacheAccount, loadAccount } from "../utils/Account.js";
 import { ImageSelector } from "../components/ImageSelector.js";
 import { ChangePassword } from "../components/ChangeAccount.js";
 import { Popup } from "../utils/Utility.js";
-import {setEventListeners} from "../utils/EventHandling.js";
+import { setEventListeners } from "../utils/EventHandling.js";
 
 function renderTime(stamp) {
   const date = new Date(stamp);
