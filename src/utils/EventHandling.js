@@ -7,11 +7,19 @@ import { EventSource } from 'extended-eventsource';
 const API = import.meta.env.VITE_API;
 var eventSource = new EventSource(`${API}/events`);
 export function initOrUpdateEventSource() {
+  const accountToken = localStorage.getItem("token")
+  const playerToken = localStorage.getItem("playerToken")
   if (eventSource !== null) {
     eventSource.close();
   }
-  const playerToken = localStorage.getItem("playerToken")
-  if (playerToken !== null) {
+  // if (accountToken) {
+  //   eventSource = new EventSource(`${API}/events`, {
+  //     headers: {
+  //       "Authorization": `${accountToken}`
+  //     }
+  //   });
+  // }
+  if (playerToken) {
     eventSource = new EventSource(`${API}/events`, {
       headers: {
         "Authorization": `${playerToken}`

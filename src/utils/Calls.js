@@ -6,7 +6,13 @@ import swal from 'sweetalert2'
 const API = import.meta.env.VITE_API;
 
 async function showAlert(msg) {
-    await swal.fire(msg)
+    await swal.fire(
+        {
+            title: msg,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7c7c7cff",
+        }
+    )
 }
 
 export async function register(e) {
@@ -366,7 +372,7 @@ export async function getCombination(elemA, elemB) {
         return;
     }
     const data = await res.json()
-    return data.result
+    return data
 }
 
 export async function startGame() {

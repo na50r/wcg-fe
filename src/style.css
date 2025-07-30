@@ -159,7 +159,6 @@ form input {
   background-color: #3f3f3f;
 }
 
-
 .modal-overlay-1 {
   position: fixed;
   top: 0;
@@ -173,13 +172,9 @@ form input {
   align-items: center;
   z-index: 999;
   opacity: 1;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-
-.modal-overlay-1.open {
-  opacity: 1;
-  z-index: 999;
-}
-
 
 #image-selector .scroll-wrapper {
   overflow-y: auto;
@@ -227,7 +222,7 @@ form input {
 }
 
 .lobby {
-  width: 25em;
+  width: 30em;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -236,16 +231,34 @@ form input {
 }
 
 .lobby .menu {
-  height: 12.5em;
-  width: 12.5em;
+  height: 15em;
+  width: 15em;
 }
 
 .lobby .players {
-  height: 12.5em;
-  width: 12.5em;
+  height: 15em;
+  width: 15em;
+}
+
+.lobby .players .scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 20vh;
+  height: 20vh;
+}
+
+.game-end h2 {
+  width: 10em;
+}
+
+.game-end button {
+  justify-self: center;
+  width: 15em;
 }
 
 .game-end .player {
+  justify-self: center;
   width: 15em;
   border: 1px solid #0e0e0e;
   border-radius: 10px;
@@ -265,14 +278,7 @@ form input {
 
 .game-end .scroll-wrapper {
   overflow-y: auto;
-  max-height: 40vh;
   border-radius: 10px;
-}
-
-
-.lobby .players .scroll-wrapper {
-  overflow-y: auto;
-  max-height: 40vh;
 }
 
 .lobby .players .player {
@@ -426,8 +432,20 @@ form input {
   font-size: 1.2rem;
 }
 
-.swal2-confirm {
-  background-color: #636363;
-  color: white;
-  border-radius: 8px;
+.gamebox .element.loading {
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-color: #616161;
+  }
+
+  50% {
+    background-color: #9b9b9b;
+  }
+
+  100% {
+    background-color: #616161;
+  }
 }

@@ -17,21 +17,26 @@ function createGame() {
     return container;
 }
 
-function CreateElem(name) {
+function CreateElem(name, isNew) {
     const elem = document.createElement("div");
     elem.setAttribute("data-elem", name);
     elem.classList.add("element");
     const span = document.createElement("span");
     span.innerText = name;
     elem.append(span);
+    if (isNew) {
+        elem.classList.add("loading");
+    }
     return elem;
 }
 
 async function Merge(elemA, elemB) {
     console.log(elemA.getAttribute("data-elem"), elemB.getAttribute("data-elem"));
     const res = await getCombination(elemA.getAttribute("data-elem"), elemB.getAttribute("data-elem"));
-    const capitalized = res.charAt(0).toUpperCase() + res.slice(1);
-    return { name: capitalized };
+    const word = res.result;
+    const isNew = res.isNew;
+    const capitalized = word.charAt(0).toUpperCase() + word.slice(1);
+    return { name: capitalized, isNew: isNew };
 }
 
 function renderBar(elem1, elem2, out) {
@@ -58,16 +63,16 @@ function renderBar(elem1, elem2, out) {
 function renderElems(state, elems) {
     state.aside.innerHTML = "";
     elems.forEach(element => {
-        element = CreateElem(element.name);
+        element = CreateElem(element.name, element.isNew);
         state.aside.appendChild(element);
     });
 }
 
-function formaList(data) {
+function formatList(data) {
     const list = [];
     for (const word of data) {
         const formatedWord = word.charAt(0).toUpperCase() + word.slice(1);
-        list.push({ name: formatedWord });
+        list.push({ name: formatedWord, isNew: word.isNew });
     }
     return list;
 }
@@ -102,7 +107,7 @@ async function renderGame(game) {
     const data = await getPlayerWords()
     const targetWord = data.targetWord
     const p = UI.p(`Target Word: ${targetWord}`);
-    const currList = formaList(data.words);
+    const currList = formatList(data.words);
     const state = {
         section: section,
         aside: aside,

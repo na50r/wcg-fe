@@ -31,8 +31,7 @@ function renderPlayer(name, image, cnt) {
 function renderPlayers(data) {
   const scrollWrapper = document.createElement('div');
   scrollWrapper.classList.add('scroll-wrapper');
-  const sortedPlayers = data.playerResults.sort((a, b) => b.points - a.points);
-  const players = sortedPlayers.map(player => renderPlayer(player.playerName, player.image, player.points));
+  const players = data.playerResults.map(player => renderPlayer(player.playerName, player.image, player.points));
   for (const player of players) {
     scrollWrapper.append(player);
   }
@@ -44,10 +43,13 @@ function renderGameEnd(data) {
     const container = UI.Container();
     container.classList.add('game-end');
     const isWinner = data.winner === localStorage.getItem("playerName")
-    const h1 = isWinner ? UI.h1("Victory") : UI.h1("Defeat");
+    var title = isWinner ? UI.h1("Victory") : UI.h1("Defeat");
+    if (data.gameMode === "Daily Challenge") {
+      title = UI.h2("Daily Challenge Completed");
+    }
     const btn = UI.actionButton("Back to Lobby", ownerAction);
     const players = renderPlayers(data);
-    container.append(h1, players, btn);
+  container.append(title, players, btn);
     return container;
 }
 

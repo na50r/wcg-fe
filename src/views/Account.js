@@ -6,6 +6,7 @@ import { cacheAccount, loadAccount } from "../utils/Account.js";
 import { ImageSelector } from "../components/ImageSelector.js";
 import { ChangePassword } from "../components/ChangeAccount.js";
 import { Popup } from "../utils/Utility.js";
+import {setEventListeners} from "../utils/EventHandling.js";
 
 function renderTime(stamp) {
   const date = new Date(stamp);
@@ -41,11 +42,6 @@ function renderAccount(data = {}, imgSelector) {
 
   for (const item of info) {
     const row = UI.row([UI.column(item.name), UI.column(item.value)]);
-    if (item.name === "Username") {
-      row.addEventListener("click", () => {
-        document.getElementById("change-username").classList.add("open");
-      });
-    }
     table.append(row);
   }
 
@@ -61,6 +57,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    setEventListeners();
     const username = this.username
     const storedUsername = localStorage.getItem("username")
     if (username !== storedUsername) {
