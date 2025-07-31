@@ -101,10 +101,9 @@ nav:hover {
   display: grid;
   justify-content: center;
   align-items: center;
-  width: fit-content;
   padding: 1em;
+  margin: 1em auto;
 }
-
 
 #profile-pic {
   justify-self: center;
@@ -230,14 +229,15 @@ form input {
   gap: 1em;
 }
 
-.lobby .menu {
-  height: 15em;
-  width: 15em;
-}
-
+.lobby .menu,
 .lobby .players {
+  flex: 1;
   height: 15em;
-  width: 15em;
+  border: 3px solid #000000;
+    border-radius: 10px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
 .lobby .players .scroll-wrapper {
@@ -348,10 +348,12 @@ form input {
   grid-template-rows: auto auto;
   gap: 1em;
   padding: 1em;
-  min-width: min-content
+  min-width: min-content;
+  max-width: 80vw;
 }
 
 .gamebox section {
+  overflow-x: auto;
   background-color: #9f9f9f;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -371,6 +373,9 @@ form input {
   align-content: flex-start;
   gap: .5em;
   padding: 1em;
+  width: 330px;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .gamebox #bar {
@@ -390,12 +395,13 @@ form input {
   border: 1px solid rgb(0, 0, 0);
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: fit-content;
   padding: 0.5em;
   border-radius: 6px;
   cursor: pointer;
   user-select: none;
+  max-width: 100%;
 }
 
 .gamebox .element span {
@@ -475,3 +481,6 @@ form input {
     background-color: #616161;
   }
 }
+
+
+  

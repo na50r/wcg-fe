@@ -97,8 +97,6 @@ export default class extends AbstractView {
       cacheLobbies(data)
     }
     const data = loadLobbies()
-    const container = document.createElement("div");
-    container.append(renderLobbies(data));
-    return container;
+    return renderLobbies(data);
   }
 }

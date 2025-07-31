@@ -30,7 +30,7 @@ function renderPlayer(name, image) {
 function renderPlayers(data) {
   const h3 = document.createElement('h3');
   h3.innerText = "Players";
-  const container = UI.Container();
+  const container = document.createElement('div');
   container.classList.add('players');
   const scrollWrapper = document.createElement('div');
   scrollWrapper.classList.add('scroll-wrapper');
@@ -117,7 +117,7 @@ function renderSelection(duration) {
 
 
 function renderMenu(data) {
-  const container = UI.Container();
+  const container = document.createElement('div');
   const h3 = document.createElement('h3');
   h3.innerText = "Game Modes";
   container.classList.add('menu');
