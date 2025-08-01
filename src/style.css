@@ -234,10 +234,10 @@ form input {
   flex: 1;
   height: 15em;
   border: 3px solid #000000;
-    border-radius: 10px;
-    display: grid;
-    justify-content: center;
-    align-items: center;
+  border-radius: 10px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 .lobby .players .scroll-wrapper {
@@ -354,6 +354,8 @@ form input {
 
 .gamebox section {
   overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 50vw;
   background-color: #9f9f9f;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -364,6 +366,7 @@ form input {
 }
 
 .gamebox aside {
+  justify-self: center;
   background-color: #6e6e6e;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -373,7 +376,7 @@ form input {
   align-content: flex-start;
   gap: .5em;
   padding: 1em;
-  width: 330px;
+  max-width: 45vw;
   max-height: 40vh;
   overflow-y: auto;
 }
