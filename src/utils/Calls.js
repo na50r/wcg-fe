@@ -5,7 +5,15 @@ import swal from 'sweetalert2'
 
 const API = import.meta.env.VITE_API;
 
-async function showAlert(msg) {
+function generateHeader(token) {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+    }
+}
+
+
+export async function showAlert(msg) {
     await swal.fire(
         {
             title: msg,
@@ -79,10 +87,7 @@ export async function logout() {
     localStorage.removeItem("playerToken")
     const res = await fetch(`${API}/logout`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -98,10 +103,7 @@ export async function account(username) {
     const token = localStorage.getItem("token")
     const res = await fetch(`${API}/account/${username}`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -116,10 +118,7 @@ export async function getImages(username) {
     const token = localStorage.getItem("token")
     const res = await fetch(`${API}/account/${username}/images`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -141,10 +140,7 @@ export async function changeImage(imageName) {
     console.log(body)
     const res = await fetch(`${API}/account/${username}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body)
     })
     if (!res.ok) {
@@ -165,10 +161,7 @@ export async function editUsername(newUsername) {
     }
     const res = await fetch(`${API}/account/${username}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body)
     })
     if (!res.ok) {
@@ -191,10 +184,7 @@ export async function editPassword(oldPassword, newPassword) {
     }
     const res = await fetch(`${API}/account/${username}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body)
     })
     if (!res.ok) {
@@ -234,10 +224,7 @@ export async function createLobby(e) {
     const username = localStorage.getItem("username")
     let res = await fetch(`${API}/lobbies`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body),
     })
     if (res.ok) {
@@ -259,10 +246,7 @@ export async function createLobby(e) {
 export async function getLobby(lobbyCode, playerName, playerToken) {
     const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${playerToken}`
-        }
+        headers: generateHeader(playerToken)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -284,10 +268,7 @@ export async function joinLobby(lobbyCode, playerName) {
     }
     const res = await fetch(`${API}/lobbies`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body),
     })
     if (!res.ok) {
@@ -312,10 +293,7 @@ export async function leaveLobby() {
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/leave`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -337,10 +315,7 @@ export async function editGame(gameMode = null, duration = null) {
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/lobbies/${lobbyCode}/${playerName}/edit`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`
-        },
+        headers: generateHeader(token),
         body: JSON.stringify({ gameMode: gameMode, duration: duration })
     })
     if (!res.ok) {
@@ -360,10 +335,7 @@ export async function getCombination(elemA, elemB) {
     }
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/combinations`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body)
     })
     if (!res.ok) {
@@ -403,10 +375,7 @@ export async function startGame() {
     }
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        },
+        headers: generateHeader(token),
         body: JSON.stringify(body)
     })
     if (!res.ok) {
@@ -422,10 +391,7 @@ export async function getPlayerWords() {
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/words`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -442,10 +408,7 @@ export async function getGameStats() {
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -462,10 +425,7 @@ export async function deleteGame() {
     const playerName = localStorage.getItem("playerName")
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/game`, {
         method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -480,10 +440,7 @@ export async function endGame() {
     const lobbyCode = localStorage.getItem("lobbyCode")
     const res = await fetch(`${API}/games/${lobbyCode}/${playerName}/end`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()
@@ -497,10 +454,7 @@ export async function getLeaderboard() {
     const token = localStorage.getItem("token")
     const res = await fetch(`${API}/account/${username}/leaderboard`, {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-        }
+        headers: generateHeader(token)
     })
     if (!res.ok) {
         const msg = await res.json()

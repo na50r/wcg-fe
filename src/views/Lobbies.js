@@ -8,6 +8,7 @@ import { joinLobby } from "../utils/Calls.js";
 import { PlayerLogin } from "../components/PlayerLogin.js";
 import { setEventListeners } from "../utils/EventHandling.js";
 import { Popup } from "../utils/Utility.js";
+import { showAlert } from "../utils/Calls.js";
 
 function cacheLobbies(data) {
   localStorage.setItem("lobbies", JSON.stringify(data))
@@ -66,7 +67,7 @@ function renderLobbies(data) {
   container.append(lobbies);
   const joinBtn = UI.actionButton("Join", () => {
     if (!selectedLobby) {
-      alert("Please select a lobby");
+      showAlert("Please select a lobby");
       return;
     }
     joinSelectedLobby(selectedLobby);
@@ -74,7 +75,7 @@ function renderLobbies(data) {
 
   const createBtn = UI.actionButton("Create", () => {
     if (!loggedIn()) {
-      alert("Please login to create a lobby");
+      showAlert("Please login to create a lobby");
       return;
     }
     router.navigateTo("/lobby");

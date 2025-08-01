@@ -7,29 +7,20 @@ import { EventSource } from 'extended-eventsource';
 const API = import.meta.env.VITE_API;
 var eventSource = new EventSource(`${API}/events`);
 export function initOrUpdateEventSource() {
-  const accountToken = localStorage.getItem("token")
   const playerToken = localStorage.getItem("playerToken")
   if (eventSource !== null) {
     eventSource.close();
   }
-  // if (accountToken) {
-  //   eventSource = new EventSource(`${API}/events`, {
-  //     headers: {
-  //       "Authorization": `${accountToken}`
-  //     }
-  //   });
-  // }
   if (playerToken) {
     eventSource = new EventSource(`${API}/events`, {
       headers: {
-        "Authorization": `${playerToken}`
+        "Authorization": `Bearer ${playerToken}`
       }
     });
   } else {
     eventSource = new EventSource(`${API}/events`);
   }
 }
-
 
 const EventMessage = {
   PLAYER_JOINED: "PLAYER_JOINED",

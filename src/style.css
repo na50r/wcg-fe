@@ -35,25 +35,7 @@ nav {
   width: var(--nav-width);
   height: 100vh;
   background: #222222;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
   z-index: 10;
-}
-
-#nav-trigger {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 5em;
-  height: 100vh;
-  z-index: 10;
-}
-
-#nav-trigger:hover+nav,
-nav:hover {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .nav__link {
@@ -441,24 +423,16 @@ form input {
 }
 
 #end-game-btn {
-  top: 0;
-  right: 0;
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-#end-game-btn-trigger {
-  position: absolute;
   top: 2.5%;
   right: 1%;
   height: 7.5%;
   width: 7.5%;
+  position: absolute;
 }
 
-#end-game-btn-trigger:hover #end-game-btn {
-  opacity: 1;
+#end-game-btn:hover {
   pointer-events: auto;
+  background-color: #989898;
 }
 
 .swal2-popup {
@@ -484,6 +458,3 @@ form input {
     background-color: #616161;
   }
 }
-
-
-  
