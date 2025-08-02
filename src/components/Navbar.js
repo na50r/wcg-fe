@@ -103,12 +103,21 @@ function lobbyView() {
     nav.replaceWith(newNav)
 }
 
+function temporaryView() {
+    const currRoute = location.pathname
+    if (currRoute !== "/") return;
+    const nav= document.querySelector("nav")
+    nav.classList.add("nav-visible")
+    setTimeout(() => {
+        nav.classList.remove("nav-visible")
+    }, 3000);
+}
 
 export function navBehaviour() {
+  setInterval(temporaryView, 20000);
   document.body.addEventListener("click", e => {
     if (e.target.matches("[data-link]")) {
       e.preventDefault();
-      console.log(e.target.href)
       router.navigateTo(e.target.href)
     }
   })
