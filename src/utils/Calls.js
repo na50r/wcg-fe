@@ -75,9 +75,7 @@ export async function login(e) {
     }
 }
 
-export async function logout() {
-    const token = localStorage.getItem("token")
-    showAlert("Successfully logged out!")
+function clearCache() {
     localStorage.removeItem("token")
     localStorage.removeItem("username")
     localStorage.removeItem("account")
@@ -85,6 +83,10 @@ export async function logout() {
     localStorage.removeItem("lobbyCode")
     localStorage.removeItem("playerName")
     localStorage.removeItem("playerToken")
+}
+
+export async function logout() {
+    const token = localStorage.getItem("token")
     const res = await fetch(`${API}/logout`, {
         method: "POST",
         headers: generateHeader(token)
@@ -94,6 +96,7 @@ export async function logout() {
         showAlert(`${msg.error}`)
         return;
     }
+    clearCache()
     router.navigateTo("/")
     router.navigate()
     Navbar()
