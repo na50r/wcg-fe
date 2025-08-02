@@ -125,10 +125,13 @@ async function renderGame(game) {
     return game;
 }
 
-function renderEndGameBtn () {
+function renderEndGameBtn() {
+    const trigger = document.createElement('div');
+    trigger.id = "end-game-btn-trigger";
     const btn = UI.actionButton("End Game", endGame);
     btn.id = "end-game-btn";
-    return btn;
+    trigger.append(btn);
+    return trigger;
 }
 
 export default class extends AbstractView {

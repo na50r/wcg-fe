@@ -439,19 +439,27 @@ form input {
   opacity: 1;
   transition: opacity 0.75s;
 }
-
 #end-game-btn {
+  top: 0;
+  right: 0;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#end-game-btn-trigger {
+  position: absolute;
   top: 2.5%;
   right: 1%;
   height: 7.5%;
   width: 7.5%;
-  position: absolute;
 }
 
-#end-game-btn:hover {
+#end-game-btn-trigger:hover #end-game-btn {
+  opacity: 1;
   pointer-events: auto;
-  background-color: #989898;
 }
+
 .swal2-popup {
   background-color: #333;
   color: white;
