@@ -7,6 +7,7 @@ import { ImageSelector } from "../components/ImageSelector.js";
 import { ChangePassword } from "../components/ChangeAccount.js";
 import { Popup } from "../utils/Utility.js";
 import { setEventListeners } from "../utils/EventHandling.js";
+import { showAlert } from "../utils/Calls.js";
 
 function renderTime(stamp) {
   const date = new Date(stamp);
@@ -61,7 +62,7 @@ export default class extends AbstractView {
     const username = this.username
     const storedUsername = localStorage.getItem("username")
     if (username !== storedUsername) {
-      alert("You are not allowed to view this page")
+      showAlert("You are not allowed to view this page")
       router.navigateTo(`/account/${storedUsername}`)
       return;
     }

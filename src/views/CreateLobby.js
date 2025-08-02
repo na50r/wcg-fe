@@ -3,6 +3,7 @@ import * as UI from "../components/UI.js";
 import { router } from "../main.js";
 import { createLobby } from "../utils/Calls.js";
 import { loggedIn } from "../utils/Utility.js";
+import { showAlert } from "../utils/Calls.js";
 
 
 function renderCreateLobby() {
@@ -27,7 +28,7 @@ export default class extends AbstractView {
 
   async getHtml() {
     if (!loggedIn()) {
-      alert("Please login to create a lobby");
+      showAlert("Please login to create a lobby");
       router.navigateTo("/login");
       return;
     }
