@@ -353,20 +353,22 @@ form input {
 }
 
 .gamebox section {
-  overflow-x: auto;
-  overflow-y: hidden;
+  justify-self: center;
   max-width: 50vw;
   background-color: #9f9f9f;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
-  display: grid;
-  justify-content: center;
+  display: flex;
+  overflow-x: auto;
   align-items: center;
+  padding: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
   height: 5em;
+  gap: .5em;
 }
 
 .gamebox aside {
-  justify-self: center;
   background-color: #6e6e6e;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -376,19 +378,12 @@ form input {
   align-content: flex-start;
   gap: .5em;
   padding: 1em;
-  max-width: 45vw;
+  max-width: 50vw;
   max-height: 40vh;
   overflow-y: auto;
 }
 
-.gamebox #bar {
-  display: flex;
-  align-items: flex-start;
-  gap: .5em;
-  padding: 1em;
-}
-
-.gamebox #bar .symbol {
+.gamebox section .symbol {
   font-weight: bold;
   font-size: 2em;
   margin: 0 0.5em;

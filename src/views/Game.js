@@ -10,7 +10,7 @@ function createGame() {
     const container = document.createElement('div');
     container.id = 'gamebox';
     container.classList.add('gamebox');
-    const section = document.createElement('section');
+    const section = renderSection()
     container.appendChild(section);
     const aside = document.createElement('aside');
     container.appendChild(aside);
@@ -39,7 +39,7 @@ async function Merge(elemA, elemB) {
     return { name: capitalized, isNew: isNew };
 }
 
-function renderBar(elem1, elem2, out) {
+function renderSection(elem1, elem2, out) {
     const plus = document.createElement("span");
     plus.textContent = "+";
     plus.className = "symbol";
@@ -48,15 +48,15 @@ function renderBar(elem1, elem2, out) {
     equals.textContent = "=";
     equals.className = "symbol";
 
-    const bar = document.createElement("div");
-    bar.id = "bar";
+    const section = document.createElement("section")
     const div = document.createElement("div");
-    bar.appendChild(elem1 ? elem1 : div);
-    bar.appendChild(plus);
-    bar.appendChild(elem2 ? elem2 : div);
-    bar.appendChild(equals);
-    bar.appendChild(out ? out : div);
-    return bar;
+    section.appendChild(elem1 ? elem1 : div);
+    section.appendChild(plus);
+    section.appendChild(elem2 ? elem2 : div);
+    section.appendChild(equals);
+    section.appendChild(out ? out : div);
+    return section
+
 }
 
 // Renders Element list
@@ -77,17 +77,26 @@ function formatList(data) {
     return list;
 }
 
-function gameHandler(state) {
+function updateSection(oldSection, newSection) {
+    oldSection.innerHTML = ''
+    while (newSection.firstChild) {
+        oldSection.appendChild(newSection.firstChild)
+    }
+}
+
+function createGameHandler(state) {
     return async (e) => {
         const copy = e.target.closest('.element');
         if (copy) {
             state.selected.push(copy.cloneNode(true));
         }
         if (state.selected.length === 2) {
-            const out = await Merge(state.selected[0], state.selected[1]);
-            const merged = CreateElem(out.name);
-            if (!state.elems.find(elem => elem.name === out.name)) {
-                state.elems.push(out);
+            const result = await Merge(state.selected[0], state.selected[1]);
+            const merged = CreateElem(result.name);
+
+            // Real time update of aside
+            if (!state.elems.find(elem => elem.name === result.name)) {
+                state.elems.push(result);
                 renderElems(state, state.elems);
             }
             state.selected.push(merged);
@@ -96,7 +105,9 @@ function gameHandler(state) {
             state.selected = [];
             state.selected.push(copy.cloneNode(true));
         }
-        state.section.replaceChild(renderBar(...state.selected), state.section.querySelector('#bar'));
+        const oldSection = state.section
+        const newSection = renderSection(...state.selected)
+        updateSection(oldSection, newSection)
     }
 }
 
@@ -115,9 +126,7 @@ async function renderGame(game) {
         elems: currList,
     };
     renderElems(state, currList);
-    const bar = renderBar(...state.selected);
-    state.section.append(bar);
-    const handler = gameHandler(state);
+    const handler = createGameHandler(state);
     game.addEventListener("click", handler);
     if (targetWord.length > 0) {
         game.prepend(p);
