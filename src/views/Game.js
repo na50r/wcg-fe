@@ -10,11 +10,11 @@ function createGame() {
     const container = document.createElement('div');
     container.id = 'gamebox';
     container.classList.add('gamebox');
-    const section = renderSection()
-    container.appendChild(section);
-    const aside = document.createElement('div');
-    aside.classList.add('inventory');
-    container.appendChild(aside);
+    const ctable = renderCtable()
+    container.appendChild(ctable);
+    const inventory = document.createElement('div');
+    inventory.classList.add('inventory');
+    container.appendChild(inventory);
     return container;
 }
 
@@ -40,7 +40,7 @@ async function Merge(elemA, elemB) {
     return { name: capitalized, isNew: isNew };
 }
 
-function renderSection(elem1, elem2, out) {
+function renderCtable(elem1, elem2, out) {
     const plus = document.createElement("span");
     plus.textContent = "+";
     plus.className = "symbol";
@@ -49,24 +49,24 @@ function renderSection(elem1, elem2, out) {
     equals.textContent = "=";
     equals.className = "symbol";
 
-    const section = document.createElement("div");
-    section.classList.add("crafting-table");
+    const ctable = document.createElement("div");
+    ctable.classList.add("crafting-table");
     const div = document.createElement("div");
-    section.appendChild(elem1 ? elem1 : div);
-    section.appendChild(plus);
-    section.appendChild(elem2 ? elem2 : div);
-    section.appendChild(equals);
-    section.appendChild(out ? out : div);
-    return section
+    ctable.appendChild(elem1 ? elem1 : div);
+    ctable.appendChild(plus);
+    ctable.appendChild(elem2 ? elem2 : div);
+    ctable.appendChild(equals);
+    ctable.appendChild(out ? out : div);
+    return ctable
 
 }
 
 // Renders Element list
 function renderElems(state, elems) {
-    state.aside.innerHTML = "";
+    state.inventory.innerHTML = "";
     elems.forEach(element => {
         element = CreateElem(element.name, element.isNew);
-        state.aside.appendChild(element);
+        state.inventory.appendChild(element);
     });
 }
 
@@ -79,10 +79,10 @@ function formatList(data) {
     return list;
 }
 
-function updateSection(oldSection, newSection) {
-    oldSection.innerHTML = ''
-    while (newSection.firstChild) {
-        oldSection.appendChild(newSection.firstChild)
+function updateCtable(oldCT, newCT) {
+    oldCT.innerHTML = ''
+    while (newCT.firstChild) {
+        oldCT.appendChild(newCT.firstChild)
     }
 }
 
@@ -96,7 +96,7 @@ function createGameHandler(state) {
             const result = await Merge(state.selected[0], state.selected[1]);
             const merged = CreateElem(result.name);
 
-            // Real time update of aside
+            // Real time update of inventory
             if (!state.elems.find(elem => elem.name === result.name)) {
                 state.elems.push(result);
                 renderElems(state, state.elems);
@@ -107,23 +107,23 @@ function createGameHandler(state) {
             state.selected = [];
             state.selected.push(copy.cloneNode(true));
         }
-        const oldSection = state.section
-        const newSection = renderSection(...state.selected)
-        updateSection(oldSection, newSection)
+        const oldCtable = state.ctable;
+        const newCtable = renderCtable(...state.selected)
+        updateCtable(oldCtable, newCtable)
     }
 }
 
 // Renders Game
 async function renderGame(game) {
-    const section = game.querySelector('.crafting-table');
-    const aside = game.querySelector('.inventory');
+    const ctable = game.querySelector('.crafting-table');
+    const inventory = game.querySelector('.inventory');
     const data = await getPlayerWords()
     const targetWord = data.targetWord
     const p = UI.p(`Target Word: ${targetWord}`);
     const currList = formatList(data.words);
     const state = {
-        section: section,
-        aside: aside,
+        ctable: ctable,
+        inventory: inventory,
         selected: [],
         elems: currList,
     };
