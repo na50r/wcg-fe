@@ -97,6 +97,7 @@ export async function logout() {
         return;
     }
     clearCache()
+    showAlert("Successfully logged out!")
     router.navigateTo("/")
     router.navigate()
     Navbar()

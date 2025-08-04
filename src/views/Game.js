@@ -12,7 +12,8 @@ function createGame() {
     container.classList.add('gamebox');
     const section = renderSection()
     container.appendChild(section);
-    const aside = document.createElement('aside');
+    const aside = document.createElement('div');
+    aside.classList.add('inventory');
     container.appendChild(aside);
     return container;
 }
@@ -48,7 +49,8 @@ function renderSection(elem1, elem2, out) {
     equals.textContent = "=";
     equals.className = "symbol";
 
-    const section = document.createElement("section")
+    const section = document.createElement("div");
+    section.classList.add("crafting-table");
     const div = document.createElement("div");
     section.appendChild(elem1 ? elem1 : div);
     section.appendChild(plus);
@@ -113,8 +115,8 @@ function createGameHandler(state) {
 
 // Renders Game
 async function renderGame(game) {
-    const section = game.querySelector('section');
-    const aside = game.querySelector('aside');
+    const section = game.querySelector('.crafting-table');
+    const aside = game.querySelector('.inventory');
     const data = await getPlayerWords()
     const targetWord = data.targetWord
     const p = UI.p(`Target Word: ${targetWord}`);

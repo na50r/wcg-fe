@@ -364,7 +364,7 @@ form input {
   max-width: 80vw;
 }
 
-.gamebox section {
+.gamebox .crafting-table {
   justify-self: center;
   max-width: 50vw;
   background-color: #9f9f9f;
@@ -380,7 +380,7 @@ form input {
   gap: .5em;
 }
 
-.gamebox aside {
+.gamebox .inventory {
   background-color: #6e6e6e;
   border-radius: 10px;
   border: 1px solid rgb(0, 0, 0);
@@ -395,7 +395,7 @@ form input {
   overflow-y: auto;
 }
 
-.gamebox section .symbol {
+.gamebox .crafting-table .symbol {
   font-weight: bold;
   font-size: 2em;
   margin: 0 0.5em;
