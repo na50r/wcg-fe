@@ -84,6 +84,12 @@ function updateCtable(oldCT, newCT) {
     while (newCT.firstChild) {
         oldCT.appendChild(newCT.firstChild)
     }
+    oldCT.scrollTo(
+        {
+            left: oldCT.scrollWidth,
+            behavior: 'smooth'
+        }
+    )
 }
 
 function createGameHandler(state) {

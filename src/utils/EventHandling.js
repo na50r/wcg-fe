@@ -20,6 +20,16 @@ export function initOrUpdateEventSource() {
   } else {
     eventSource = new EventSource(`${API}/events`);
   }
+  localStorage.removeItem("serverDown")
+  Navbar()
+  
+  eventSource.onerror = () => {
+    console.log("Connection Failed");
+    localStorage.setItem("serverDown", true)
+    router.navigateTo("/server-down");
+    router.navigate();
+    Navbar()
+  };
 }
 
 const EventMessage = {

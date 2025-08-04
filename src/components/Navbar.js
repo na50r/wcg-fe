@@ -123,7 +123,30 @@ export function navBehaviour() {
   })
 }
 
+export function isServerDown() {
+    return localStorage.getItem("serverDown") === "true"
+}
+
+function serverDownView() {
+    const newNav = document.createElement("nav")
+    const routes = ["/server-down"]
+    for (const route of routes) {
+        const a = document.createElement("a")
+        a.href = route
+        a.innerText = route.replace("/", "").toUpperCase()
+        a.dataset.link = true
+        a.classList.add("nav__link")
+        newNav.appendChild(a)
+    }
+    const nav = document.querySelector("nav")
+    nav.replaceWith(newNav)
+}
+
 export function Navbar() {
+    if (isServerDown()) {
+        serverDownView()
+        return;
+    }
     if (loggedIn() && inLobby() && inGame()) {
         loggedInAndInGameView()
     }

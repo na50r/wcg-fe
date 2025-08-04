@@ -9,10 +9,12 @@ import Lobby from './views/Lobby.js'
 import Game from './views/Game.js'
 import GameEnd from './views/GameEnd.js'
 import Leaderboard from './views/Leaderboard.js'
+import ServerDown from './views/ServerDown.js';
 
 import { initOrUpdateEventSource } from './utils/EventHandling.js';
 import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
+
 
 var routes = [
   { path: "/", view: Lobbies },
@@ -26,6 +28,7 @@ var routes = [
   { path: "/game", view: Game },
   { path: "/game/end", view: GameEnd },
   { path: "/leaderboard", view: Leaderboard },
+  { path: "/server-down", view: ServerDown },
 ]
 
 export const router = new Router(routes)

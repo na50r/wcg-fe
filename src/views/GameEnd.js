@@ -6,11 +6,11 @@ import { lobbyPicture } from "../components/Images.js";
 import { setEventListeners } from "../utils/EventHandling.js";
 
 function ownerAction() {
-    const isOwner = localStorage.getItem("playerName") === localStorage.getItem("owner")
-    if (isOwner) {
-        deleteGame()
-    }
-    router.navigateTo(`/lobby/${localStorage.getItem("lobbyCode")}`);
+  const isOwner = localStorage.getItem("playerName") === localStorage.getItem("owner")
+  if (isOwner) {
+    deleteGame()
+  }
+  router.navigateTo(`/lobby/${localStorage.getItem("lobbyCode")}`);
 }
 
 
@@ -40,28 +40,35 @@ function renderPlayers(data) {
 }
 
 function renderGameEnd(data) {
-    const container = UI.Container();
-    container.classList.add('game-end');
-    const isWinner = data.winner === localStorage.getItem("playerName")
-    var title = isWinner ? UI.h1("Victory") : UI.h1("Defeat");
-    if (data.gameMode === "Daily Challenge") {
-      title = UI.h2("Daily Challenge Completed");
-    }
-    const btn = UI.actionButton("Back to Lobby", ownerAction);
-    const players = renderPlayers(data);
+  const container = UI.Container();
+  container.classList.add('game-end');
+  const players = renderPlayers(data);
+  const isWinner = data.winner === localStorage.getItem("playerName")
+  var title = isWinner ? UI.h1("Victory") : UI.h1("Defeat");
+  if (data.gameMode === "Daily Challenge" && data.manualEnd === false) {
+    title = UI.h2("Daily Challenge Completed");
+  }
+  if (data.gameMode === "Daily Challenge" && data.manualEnd === true) {
+    title = UI.h2("Daily Challenge Aborted");
+  }
+  if (data.playerResults.length === 1 && data.manualEnd === true && data.gameMode!== "Daily Challenge") {
+    title = UI.h2("Is it fun playing by yourself?");
+  }
+  const btn = UI.actionButton("Back to Lobby", ownerAction);
+
   container.append(title, players, btn);
-    return container;
+  return container;
 }
 
 export default class extends AbstractView {
-    constructor(params) {
-        super(params);
-        this.setTitle("Game End");
-    }
+  constructor(params) {
+    super(params);
+    this.setTitle("Game End");
+  }
 
-    async getHtml() {
-        setEventListeners();
-        const data = await getGameStats()
-        return renderGameEnd(data);
-    }
+  async getHtml() {
+    setEventListeners();
+    const data = await getGameStats()
+    return renderGameEnd(data);
+  }
 }
