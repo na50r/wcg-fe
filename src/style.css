@@ -105,6 +105,17 @@ nav:hover {
   margin: 1em auto;
 }
 
+.lobby-view {
+  justify-self: center;
+  border: 3px solid #000000;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em auto;
+  margin: 1em auto;
+}
+
 #profile-pic {
   justify-self: center;
   width: 100px;
@@ -221,7 +232,8 @@ form input {
 }
 
 .lobby {
-  width: 30em;
+  max-width: 30em;
+  width: 80vw;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -233,7 +245,7 @@ form input {
 .lobby .players {
   flex: 1;
   height: 15em;
-  border: 3px solid #000000;
+  border: 1px solid #000000;
   border-radius: 10px;
   display: grid;
   justify-content: center;
@@ -434,6 +446,7 @@ form input {
   opacity: 1;
   transition: opacity 0.75s;
 }
+
 #end-game-btn {
   top: 0;
   right: 0;

@@ -134,7 +134,8 @@ function renderMenu(data) {
 }
 
 async function renderLobby(data) {
-  const container = UI.Container();
+  const container = document.createElement('div');
+  container.classList.add('lobby-view');
   const h1 = UI.h1(data.name);
   const p = UI.p("Time to play");
   const playerContainer = renderPlayers(data);
