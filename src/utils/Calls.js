@@ -468,3 +468,19 @@ export async function getLeaderboard() {
     const data = await res.json()
     return data
 }
+
+export async function getAchievements() {
+    const username = localStorage.getItem("username")
+    const token = localStorage.getItem("token")
+    const res = await fetch(`${API}/account/${username}/achievements`, {
+        method: "GET",
+        headers: generateHeader(token)
+    })
+    if (!res.ok) {
+        const msg = await res.json()
+        showAlert(`${msg.error}`)
+        return;
+    }
+    const data = await res.json()
+    return data
+}
