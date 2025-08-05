@@ -12,6 +12,19 @@ function generateHeader(token) {
     }
 }
 
+export async function showNotification(msg) {
+    await swal.fire(
+        {
+            toast: true,
+            position: 'top-end',
+            icon: 'info',
+            title: `${msg}`,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        }
+    )
+}
 
 export async function showAlert(msg) {
     await swal.fire(

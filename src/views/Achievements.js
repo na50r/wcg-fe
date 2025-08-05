@@ -4,9 +4,12 @@ import { getAchievements } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
 
 
-function renderEntry(title, desc, image) {
+function renderEntry(title, desc, image, unlocked) {
     const entry = document.createElement('div');
     entry.classList.add('entry');
+    if (!unlocked) {
+        entry.classList.add('blurred');
+    }
     const img = lobbyPicture(image);
     const p1 = UI.p(`${title}`);
     const p2 = UI.p(`${desc}`);
@@ -16,10 +19,10 @@ function renderEntry(title, desc, image) {
 
 function renderAchievements(data) {
     const container = UI.Container();
-    container.classList.add('leaderboard');
+    container.classList.add('achievements');
     const h1 = UI.h1("Achievements");
     container.append(h1);
-    const entries = data.map(entry => renderEntry(entry.title, entry.description, entry.image));
+    const entries = data.map(entry => renderEntry(entry.title, entry.description, entry.image, entry.unlocked));
     const scrollWrapper = document.createElement('div');
     scrollWrapper.classList.add('scroll-wrapper');
     for (const entry of entries) {

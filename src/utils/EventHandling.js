@@ -3,7 +3,7 @@ import { isOwner } from "./Utility.js";
 import { Navbar } from "../components/Navbar.js";
 import { renderTimer } from "../components/Timer.js";
 import { EventSource } from 'extended-eventsource';
-import { showAlert } from "./Calls.js";
+import { showAlert, showNotification } from "./Calls.js";
 
 const API = import.meta.env.VITE_API;
 var eventSource = new EventSource(`${API}/events`);
@@ -81,7 +81,7 @@ export function handleEvents(event) {
   }
 
   if (data.achievementTitle !== undefined) {
-    showAlert(`Achievement Unlocked: ${data.achievementTitle}`)
+    showNotification(`Achievement Unlocked: ${data.achievementTitle}`)
   }
 
 

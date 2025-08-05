@@ -16,6 +16,9 @@ import { initOrUpdateEventSource } from './utils/EventHandling.js';
 import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
 
+// Set Icon based on environment
+const favicon = import.meta.env.VITE_FAVICON;
+document.getElementById("favicon").href = favicon;
 
 var routes = [
   { path: "/", view: Lobbies },
