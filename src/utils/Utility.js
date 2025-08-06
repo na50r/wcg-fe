@@ -26,3 +26,25 @@ export function Popup(element) {
     const app = document.getElementById("app")
     app.append(element);
 }
+
+export function cacheData(data, dataName) {
+    try {
+        const json = JSON.stringify(data);
+        localStorage.setItem(dataName, json);
+    } catch (e) {
+        console.error(`Failed to cache ${dataName}:`, e);
+    }
+}
+export function loadData(dataName){
+    const raw = localStorage.getItem(dataName);
+    if (!raw) return null;
+
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        console.warn("Failed to parse cached data, clearing it.");
+        localStorage.removeItem(dataName);
+        return null;
+    }
+}
+

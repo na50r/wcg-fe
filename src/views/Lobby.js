@@ -7,16 +7,7 @@ import { setEventListeners } from "../utils/EventHandling.js";
 import { editGame } from "../utils/Calls.js";
 import { isOwner } from "../utils/Utility.js";
 import { startGame } from "../utils/Calls.js";
-
-function cacheLobby(data) {
-  localStorage.setItem("lobby", JSON.stringify(data))
-}
-
-function loadLobby() {
-  const lobby = localStorage.getItem("lobby")
-  if (!lobby) return null;
-  return JSON.parse(lobby)
-}
+import { loadData, cacheData } from "../utils/Utility.js";
 
 function renderPlayer(name, image) {
   const player = document.createElement('div');
@@ -97,7 +88,7 @@ function renderSelection(duration) {
   noneOpt.value = 0;
   noneOpt.text = "None";
   select.append(noneOpt);
-  for (let i = 1; i <=duration; i++) {
+  for (let i = 1; i <= duration; i++) {
     const option = document.createElement('option');
     option.value = i;
     option.text = `${i}min`;
@@ -166,11 +157,11 @@ export default class extends AbstractView {
     const lobbyCode = this.lobbyCode
     const playerName = localStorage.getItem("playerName")
     const playerToken = localStorage.getItem("playerToken")
-    if (loadLobby() === null) {
+    if (loadData("lobby") === null) {
       const data = await getLobby(lobbyCode, playerName, playerToken)
-      cacheLobby(data)
+      cacheData(data, "lobby")
     }
-    const data = loadLobby()
+    const data = loadData("lobby")
     return renderLobby(data);
   }
 }

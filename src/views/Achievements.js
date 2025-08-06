@@ -2,6 +2,7 @@ import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { getAchievements } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
+import { cacheData, loadData } from "../utils/Utility.js"
 
 
 function renderEntry(title, desc, image, unlocked) {
@@ -39,7 +40,11 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
-        const data = await getAchievements()
+        var data = loadData("achievements");
+        if (!data) {
+            data = await getAchievements();
+            cacheData(data, "achievements");
+        }
         return renderAchievements(data);
     }
 }

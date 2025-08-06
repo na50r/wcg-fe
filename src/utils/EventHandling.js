@@ -82,6 +82,7 @@ export function handleEvents(event) {
 
   if (data.achievementTitle !== undefined) {
     showNotification(`Achievement Unlocked: ${data.achievementTitle}`)
+    localStorage.removeItem("achievements");
   }
 
 
