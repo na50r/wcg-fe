@@ -10,11 +10,15 @@ import Game from './views/Game.js'
 import GameEnd from './views/GameEnd.js'
 import Leaderboard from './views/Leaderboard.js'
 import ServerDown from './views/ServerDown.js';
+import Achievements from './views/Achievements.js';
 
 import { initOrUpdateEventSource } from './utils/EventHandling.js';
 import { Navbar, navBehaviour } from './components/Navbar.js';
 import './style.css'
 
+// Set Icon based on environment
+const favicon = import.meta.env.VITE_FAVICON;
+document.getElementById("favicon").href = favicon;
 
 var routes = [
   { path: "/", view: Lobbies },
@@ -29,6 +33,7 @@ var routes = [
   { path: "/game/end", view: GameEnd },
   { path: "/leaderboard", view: Leaderboard },
   { path: "/server-down", view: ServerDown },
+  { path: "/achievements", view: Achievements },
 ]
 
 export const router = new Router(routes)

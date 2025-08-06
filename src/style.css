@@ -144,6 +144,7 @@ nav:hover {
   -webkit-user-select: none;
   -ms-user-select: none;
   border: none;
+  pointer-events: none;
 }
 
 form {
@@ -320,6 +321,45 @@ form input {
 }
 
 .lobbies .scroll-wrapper {
+  overflow-y: auto;
+  max-height: 40vh;
+}
+
+.achievements .scroll-wrapper .entry {
+  border: 1px solid #0e0e0e;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+  justify-content: space-around;
+  width: 15em;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.achievements .scroll-wrapper .entry.blurred {
+  filter: blur(6px);
+  pointer-events: none;
+
+}
+
+
+.achievements .scroll-wrapper .entry p {
+  margin: 0.75rem;
+}
+
+.achievements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.achievements .scroll-wrapper {
   overflow-y: auto;
   max-height: 40vh;
 }
