@@ -1,10 +1,8 @@
 import AbstractView from "./AbstractView.js";
-import { getCombination } from "../utils/Calls.js";
-import { getPlayerWords } from "../utils/Calls.js";
+import { getCombination, getPlayerWords, endGame } from "../utils/Calls.js";
 import * as UI from "../components/UI.js";
 import { setEventListeners } from "../utils/EventHandling.js";
 import { isOwner } from "../utils/Utility.js";
-import { endGame } from "../utils/Calls.js";
 
 function createGame() {
     const container = document.createElement('div');

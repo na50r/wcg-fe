@@ -1,13 +1,12 @@
 import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
-import { account, getLeaderboard } from "../utils/Calls.js";
-import { cacheAccount, loadAccount } from "../utils/Account.js";
+import { getAccount } from "../utils/Calls.js";
 import { ImageSelector } from "../components/ImageSelector.js";
 import { ChangePassword } from "../components/ChangeAccount.js";
-import { Popup } from "../utils/Utility.js";
+import { Popup, loadData, cacheData, showAlert } from "../utils/Utility.js";
 import { setEventListeners } from "../utils/EventHandling.js";
-import { showAlert } from "../utils/Calls.js";
+
 
 function renderTime(stamp) {
   const date = new Date(stamp);
@@ -66,12 +65,12 @@ export default class extends AbstractView {
       router.navigateTo(`/account/${storedUsername}`)
       return;
     }
-    if (loadAccount() === null) {
-      const data = await account(username)
-      cacheAccount(data)
+    if (loadData('account') === null) {
+      const data = await getAccount(username)
+      cacheData(data, 'account')
     }
 
-    const data = loadAccount()
+    const data = loadData('account')
     const imgSelector = await ImageSelector();
     const changePassword = await ChangePassword();
     const container = document.createElement("div");

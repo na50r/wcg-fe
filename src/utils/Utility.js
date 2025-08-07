@@ -1,3 +1,35 @@
+import swal from 'sweetalert2'
+
+export async function showNotification(msg) {
+    await swal.fire(
+        {
+            toast: true,
+            position: 'top-end',
+            icon: 'info',
+            title: `${msg}`,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            customClass: {
+                title: 'custom-title',
+            }
+        }
+    )
+}
+
+export async function showAlert(msg) {
+    await swal.fire(
+        {
+            title: msg,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7c7c7cff",
+            customClass: {
+                title: 'custom-title',
+            }
+        }
+    )
+}
+
 function toggleButton(inputIds, buttonId) {
     const inputs = inputIds.map(id => document.getElementById(id));
     const btn = document.getElementById(buttonId);

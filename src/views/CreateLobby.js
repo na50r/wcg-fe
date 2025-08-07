@@ -2,8 +2,7 @@ import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
 import { router } from "../main.js";
 import { createLobby } from "../utils/Calls.js";
-import { loggedIn } from "../utils/Utility.js";
-import { showAlert } from "../utils/Calls.js";
+import { loggedIn, showAlert } from "../utils/Utility.js";
 
 
 function renderCreateLobby() {

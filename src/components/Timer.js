@@ -12,7 +12,7 @@ export function renderTimer(secondsLeft) {
     }
     const text = `${secondsLeft} seconds left`;
     const app = document.getElementById("app");
-    var timer = document.getElementById("timer-popup");
+    var timer = app.getElementById("timer-popup");
     if (!timer) {
         timer = setupTimer();
         app.append(timer);
@@ -20,6 +20,7 @@ export function renderTimer(secondsLeft) {
     timer.innerText = text;
     timer.classList.add("show");
     if (currTimeout) {
+        //Deals with the case of countdown form 10 every second
         clearTimeout(currTimeout);
     }
     currTimeout = setTimeout(() => {

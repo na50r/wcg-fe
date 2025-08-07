@@ -1,9 +1,8 @@
 import { router } from "../main.js";
-import { isOwner } from "./Utility.js";
 import { Navbar } from "../components/Navbar.js";
 import { renderTimer } from "../components/Timer.js";
 import { EventSource } from 'extended-eventsource';
-import { showAlert, showNotification } from "./Calls.js";
+import { showNotification, isOwner } from "./Utility.js";
 
 const API = import.meta.env.VITE_API;
 var eventSource = new EventSource(`${API}/events`);

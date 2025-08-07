@@ -1,24 +1,11 @@
 import AbstractView from "./AbstractView.js";
 import * as UI from "../components/UI.js";
-import { getLobbies } from "../utils/Calls.js";
 import { lobbyPicture } from "../components/Images.js";
 import { router } from "../main.js";
-import { loggedIn } from "../utils/Utility.js";
-import { joinLobby } from "../utils/Calls.js";
+import { joinLobby, getLobbies } from "../utils/Calls.js";
 import { PlayerLogin } from "../components/PlayerLogin.js";
 import { setEventListeners } from "../utils/EventHandling.js";
-import { Popup } from "../utils/Utility.js";
-import { showAlert } from "../utils/Calls.js";
-
-function cacheLobbies(data) {
-  localStorage.setItem("lobbies", JSON.stringify(data))
-}
-
-function loadLobbies() {
-  const lobbies = localStorage.getItem("lobbies")
-  if (!lobbies) return null;
-  return JSON.parse(lobbies)
-}
+import { Popup, loadData, cacheData, loggedIn, showAlert } from "../utils/Utility.js";
 
 function renderLobby(name, image, playerCount) {
   const lobby = document.createElement('div');
@@ -93,11 +80,11 @@ export default class extends AbstractView {
 
   async getHtml() {
     setEventListeners();
-    if (loadLobbies() === null) {
+    if (loadData('lobbies') === null) {
       const data = await getLobbies()
-      cacheLobbies(data)
+      cacheData(data, 'lobbies')
     }
-    const data = loadLobbies()
+    const data = loadData('lobbies')
     return renderLobbies(data);
   }
 }

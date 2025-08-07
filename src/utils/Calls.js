@@ -1,7 +1,7 @@
 import { router } from "../main.js";
 import { Navbar } from "../components/Navbar.js";
 import { initOrUpdateEventSource } from "./EventHandling.js";
-import swal from 'sweetalert2'
+import { showAlert } from "./Utility.js";
 
 const API = import.meta.env.VITE_API;
 
@@ -11,37 +11,6 @@ function generateHeader(token) {
         "Authorization": `Bearer ${token}`
     }
 }
-
-export async function showNotification(msg) {
-    await swal.fire(
-        {
-            toast: true,
-            position: 'top-end',
-            icon: 'info',
-            title: `${msg}`,
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            customClass: {
-                title: 'custom-title',
-            }
-        }
-    )
-}
-
-export async function showAlert(msg) {
-    await swal.fire(
-        {
-            title: msg,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7c7c7cff",
-            customClass: {
-                title: 'custom-title',
-            }
-        }
-    )
-}
-
 export async function register(e) {
     e.preventDefault()
     const form = e.target
@@ -122,7 +91,7 @@ export async function logout() {
     Navbar()
 }
 
-export async function account(username) {
+export async function getAccount(username) {
     const token = localStorage.getItem("token")
     const res = await fetch(`${API}/account/${username}`, {
         method: "GET",
