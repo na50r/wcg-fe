@@ -11,7 +11,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --swal2-background: #000000;
+  --swal2-title: #cccccc;
 }
+
+.custom-title {
+  color: #dfdfdf;
+}
+
 
 img {
   border-radius: 50%;
@@ -332,7 +340,6 @@ form input {
   align-items: center;
   margin-bottom: 0.5em;
   justify-content: space-around;
-  width: 15em;
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
@@ -346,7 +353,6 @@ form input {
 
 }
 
-
 .achievements .scroll-wrapper .entry p {
   margin: 0.75rem;
 }
@@ -354,9 +360,8 @@ form input {
 .achievements {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1em;
+  max-width: 20em;
+  width: 75vw;
 }
 
 .achievements .scroll-wrapper {
@@ -371,7 +376,6 @@ form input {
   align-items: center;
   margin-bottom: 0.5em;
   justify-content: space-around;
-  width: 15em;
 }
 
 .leaderboard .scroll-wrapper .entry p {
@@ -383,7 +387,8 @@ form input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1em;
+  max-width: 20em;
+  width: 75vw;
 }
 
 .leaderboard .scroll-wrapper {
@@ -507,12 +512,6 @@ form input {
 #end-game-btn-trigger:hover #end-game-btn {
   opacity: 1;
   pointer-events: auto;
-}
-
-.swal2-popup {
-  background-color: #333;
-  color: white;
-  font-size: 1.2rem;
 }
 
 .gamebox .element.loading {

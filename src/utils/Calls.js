@@ -21,7 +21,10 @@ export async function showNotification(msg) {
             title: `${msg}`,
             showConfirmButton: false,
             timer: 3000,
-            timerProgressBar: true
+            timerProgressBar: true,
+            customClass: {
+                title: 'custom-title',
+            }
         }
     )
 }
@@ -32,6 +35,9 @@ export async function showAlert(msg) {
             title: msg,
             confirmButtonText: "OK",
             confirmButtonColor: "#7c7c7cff",
+            customClass: {
+                title: 'custom-title',
+            }
         }
     )
 }
